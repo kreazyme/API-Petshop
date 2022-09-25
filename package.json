@@ -1,0 +1,20 @@
+{
+  "name": "petshop",
+  "version": "1.0.0",
+  "description": "A Product of Team 1 PBL 6 DUT",
+  "main": "index.js",
+  "scripts": {
+    "run": "npm app.js",
+    "dev": "nodemon app.js",
+    "start": "npm app.js",
+    "prod": "npm app.js"
+  },
+  "author": "Team1 PBL6",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "mongoose": "^6.6.1",
+    "nodemon": "^2.0.20"
+  }
+}
