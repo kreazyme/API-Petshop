@@ -1,14 +1,19 @@
 var express = require("express");
 require("dotenv").config();
+var bodyParser = require("body-parser")
+
 var app = express();
 var dbConnect = require("./database/connection")
 var userRouter = require('./routes/userRouter')
 
 dbConnect();
 app.use(userRouter)
+app.use(express.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 
 app.get("/", (req, res, next) => {
-    res.send("Server is runningg")
+    console.log(req);
+    res.send("Server is runningg" + req.query.name2)
 })
 
 app.listen(process.env.PORT, () => {
