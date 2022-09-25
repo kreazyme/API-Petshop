@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 module.exports = async () => {
     try {
-        await mongoose.connect(process.env.DB_URL, { useNewUrlParser: true })
+        await mongoose.connect("mongodb+srv://kreazy:1234@kreazydb.weyhj1s.mongodb.net/?retryWrites=true&w=majority", { useNewUrlParser: true })
         console.log("Database connected!! ");
     }
     catch (error) {
