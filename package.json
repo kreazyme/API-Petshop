@@ -4,10 +4,10 @@
   "description": "A Product of Team 1 PBL 6 DUT",
   "main": "index.js",
   "scripts": {
-    "run": "npm app.js",
+    "run": "node app.js",
     "dev": "nodemon app.js",
-    "start": "npm app.js",
-    "prod": "npm app.js"
+    "start": "node app.js",
+    "prod": "node app.js"
   },
   "author": "Team1 PBL6",
   "license": "ISC",
