@@ -1,3 +1,4 @@
+var generator = require('generate-password');
 var User = require("../database/models/userModel")
 
 exports.createUser = async (req, res, next) => {
@@ -39,4 +40,24 @@ exports.updateUser = async (req, res, next) => {
             upsert: true
         })
     res.send("[]")
+}
+
+exports.forgotPassword = async (req, res, next) => {
+    var username = req.body.username;
+    var password = generator.generate({
+        length: 10,
+        numbers: true,
+        lowercase: true,
+    })
+    await User.findOneAndUpdate(
+        {
+            userName: username
+        },
+        {
+            password: password
+        },
+        {
+            upsert: true
+        })
+    res.send(JSON.stringify(password))
 }

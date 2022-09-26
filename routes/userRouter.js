@@ -9,4 +9,6 @@ router.get("/login", userController.detailUser)
 
 router.get("/updateuser", userController.updateUser)
 
+router.get("/forgotpassword", userController.forgotPassword)
+
 module.exports = router;
