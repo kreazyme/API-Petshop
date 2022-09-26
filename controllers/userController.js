@@ -22,3 +22,21 @@ exports.detailUser = async (req, res, next) => {
     var user = await User.findOne({ userName: username })
     res.send(JSON.stringify(user))
 }
+
+exports.updateUser = async (req, res, next) => {
+    var username = req.body.username;
+    var id = await User.findOne({ userName: username })
+    await User.findOneAndUpdate(
+        {
+            userName: username
+        },
+        {
+            name: req.body.name,
+            password: req.body.password,
+            role: req.body.role,
+        },
+        {
+            upsert: true
+        })
+    res.send("[]")
+}
