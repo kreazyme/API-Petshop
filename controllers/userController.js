@@ -1,5 +1,6 @@
 var generator = require('generate-password');
-var User = require("../database/models/userModel")
+var User = require("../database/models/userModel");
+const { generateToken } = require('../middlewares/authJWT');
 
 exports.createUser = async (req, res, next) => {
     var user = new User({
@@ -23,7 +24,11 @@ exports.login = async (req, res, next) => {
     const password = req.body.password;
     var user = await User.findOne({ userName: username })
     if (user.password === password) {
-        res.send("OK")
+        const token = generateToken(user);
+        res.send(JSON.stringify(token))
+    }
+    else {
+        res.status(401).json({ status: false, description: "Wrong password or username" })
     }
 }
 
@@ -84,5 +89,4 @@ exports.deleteUser = async (req, res, next) => {
             console.log("Error in delete usercontroller: " + error);
             res.status(500).json({ success: false })
         })
-
 }

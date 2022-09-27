@@ -16,9 +16,13 @@ exports.verifyToken = (req, res, next) => {
     next();
 }
 
-exports.generateToken = (username, password) => {
+exports.generateToken = (user) => {
     const access_token = jwt.sign(
-        { username, password },
+        {
+            id: user.id,
+            name: user.name,
+            role: user.lole
+        },
         process.env.SECRET_KEY,
         {
             expiresIn: "1h"

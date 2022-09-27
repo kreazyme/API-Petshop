@@ -12,7 +12,7 @@ app.use("/auth", userRouter)
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-app.get("/", verifyToken, (req, res, next) => {
+app.get("/", (req, res, next) => {
     // console.log(req);
     res.send("Server is runningg" + req.query.name2)
 })
