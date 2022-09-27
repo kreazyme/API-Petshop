@@ -9,4 +9,6 @@ router.get("/login", userController.detailUser)
 
 router.get("/updateuser", userController.updateUser)
 
+router.delete("/deleteaccout", userController.deleteUser)
+
 module.exports = router;

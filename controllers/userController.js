@@ -40,3 +40,18 @@ exports.updateUser = async (req, res, next) => {
         })
     res.send("[]")
 }
+
+exports.deleteUser = async (req, res, next) => {
+    const username = req.body.username;
+    var user = await User.findOne({ userName: username }).exec();
+    if (!user) {
+        res.status(400).json({ success: false, decription: "no user found!" })
+    }
+    else
+        User.findOneAndDelete({ userName: username }).exec().then(() => {
+            res.status(200).json({ success: true })
+        }).catch((error) => {
+            console.log("Error in delete usercontroller: " + error);
+            res.status(500).json({ success: false })
+        })
+}
