@@ -5,10 +5,12 @@ router.use(express.json())
 
 router.post('/signin', userController.createUser);
 
-router.get("/login", userController.detailUser)
+router.get("/detailuser", userController.detailUser)
 
 router.get("/updateuser", userController.updateUser)
 
 router.get("/forgotpassword", userController.forgotPassword)
+
+router.get("/login", userController.login)
 
 module.exports = router;
