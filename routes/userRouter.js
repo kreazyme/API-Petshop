@@ -13,4 +13,6 @@ router.get("/forgotpassword", userController.forgotPassword)
 
 router.get("/login", userController.login)
 
+router.delete("/deleteaccout", userController.deleteUser)
+
 module.exports = router;
