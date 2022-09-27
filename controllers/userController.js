@@ -1,3 +1,4 @@
+var generator = require('generate-password');
 var User = require("../database/models/userModel")
 
 exports.createUser = async (req, res, next) => {
@@ -41,6 +42,26 @@ exports.updateUser = async (req, res, next) => {
     res.send("[]")
 }
 
+exports.forgotPassword = async (req, res, next) => {
+    var username = req.body.username;
+    var password = generator.generate({
+        length: 10,
+        numbers: true,
+        lowercase: true,
+    })
+    await User.findOneAndUpdate(
+        {
+            userName: username
+        },
+        {
+            password: password
+        },
+        {
+            upsert: true
+        })
+    res.send(JSON.stringify(password))
+}
+
 exports.deleteUser = async (req, res, next) => {
     const username = req.body.username;
     var user = await User.findOne({ userName: username }).exec();
@@ -54,4 +75,5 @@ exports.deleteUser = async (req, res, next) => {
             console.log("Error in delete usercontroller: " + error);
             res.status(500).json({ success: false })
         })
+
 }
