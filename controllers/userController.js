@@ -1,6 +1,7 @@
 var generator = require('generate-password');
 var User = require("../database/models/userModel");
 const { generateToken } = require('../middlewares/authJWT');
+const verifyToken = require("../middlewares/verifyJWT");
 
 exports.createUser = async (req, res, next) => {
     var user = new User({
