@@ -33,7 +33,8 @@ exports.login = async (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
     var user = await User.findOne({ userName: username })
-    if (user.password === password) {
+    const match = await bcrypt.compare(password, user.password)
+    if (match) {
         const token = generateToken(user);
         res.send(JSON.stringify(token))
     }
@@ -57,7 +58,6 @@ exports.updateUser = async (req, res, next) => {
         },
         {
             name: req.body.name,
-            password: req.body.password,
             role: req.body.role,
         },
         {
@@ -73,12 +73,14 @@ exports.forgotPassword = async (req, res, next) => {
         numbers: true,
         lowercase: true,
     })
+    const salt = await bcrypt.genSalt(10);
+    const encryptPassword = await bcrypt.hash(password, salt)
     await User.findOneAndUpdate(
         {
             userName: username
         },
         {
-            password: password
+            password: encryptPassword
         },
         {
             upsert: true
