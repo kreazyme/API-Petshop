@@ -1,22 +1,32 @@
 var generator = require('generate-password');
 var User = require("../database/models/userModel");
+
+const bcrypt = require("bcrypt")
 const { generateToken } = require('../middlewares/authJWT');
 
 exports.createUser = async (req, res, next) => {
+    const salt = await bcrypt.genSalt(10);
+    const password = await bcrypt.hash(req.body.password, salt)
     var user = new User({
         userName: req.body.username,
         name: req.body.name,
-        password: req.body.password,
+        password: password,
         role: req.body.role,
     });
-    user.save((error, result) => {
-        res.send(result)
-        next();
-        if (error) {
-            console.log("Error at user Controller: " + error);
-            throw new Error(error)
-        }
-    })
+    try {
+        user.save((error, result) => {
+            if (error) {
+                res.status(422).json(error)
+                console.log("Error at user Controller: " + error);
+                throw new Error(error)
+            }
+            res.send(result)
+            next();
+        })
+    }
+    catch (error) {
+        console.log("Error");
+    }
 }
 
 exports.login = async (req, res, next) => {
