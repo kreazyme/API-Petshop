@@ -13,7 +13,7 @@ app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.get("/", (req, res, next) => {
-    console.log(req);
+    console.log(res);
     res.send("Server is runningg" + req.query.name2)
 })
 
