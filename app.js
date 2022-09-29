@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 app.get("/", (req, res, next) => {
     console.log(res);
-    res.send("Server is runningg" + req.query.name2)
+    res.send("Server is runningg")
 })
 
 app.listen(process.env.PORT, () => {
