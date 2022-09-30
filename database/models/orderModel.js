@@ -5,10 +5,10 @@ const orderSchema = new mongoose.Schema({
     ref: 'Status',
   },
   create_at: {
-    type: Date.now(),
+    type: Date,
   },
   complete_at: {
-    type: Date.now(),
+    type: Date,
   },
   order_item: {
     type: mongoose.Schema.Types.ObjectId,
@@ -23,25 +23,4 @@ const orderSchema = new mongoose.Schema({
     ref: 'User',
   },
 });
-const order_item = new mongoose.Schema({
-  amount: {
-    type: Number,
-    required:true,
-  },
-  product:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:'Product'
-  },
-});
-
-const status = new mongoose.Schema({
-    title:{
-        type:String,
-        required:true,
-    },
-});
-let Order = mongoose.model('Order', orderSchema);
-let Order_item = mongoose.model('Order_item', order_item);
-let Status = mongoose.model('Status', status);
-
-module.exports = { Order , Order_item , Status };
+module.exports = mongoose.model("Order", orderSchema);
