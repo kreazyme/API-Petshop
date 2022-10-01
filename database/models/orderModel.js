@@ -10,9 +10,9 @@ const orderSchema = new mongoose.Schema({
   complete_at: {
     type: String,
   },
-  order_item: [{
+  orderItem: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Order_item',
+    ref: 'OrderItem',
   },
 ],
   shipping_code: {

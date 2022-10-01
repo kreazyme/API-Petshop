@@ -1,15 +1,15 @@
 const Order = require('../database/models/orderModel');
-const Order_item = require('../database/models/order_itemModel');
+const OrderItem = require('../database/models/orderItemModel');
 const Status = require('../database/models/statusModel');
 
 exports.addOrder = async (req, res) => {
   try {
     const newOrder = new Order(req.body);
     const saveOrder = await newOrder.save();
-    if (req.body.status || req.body.order_item) {
+    if (req.body.status || req.body.orderItem) {
       const stt = Status.findById(req.body.status);
-      const order_item = Order_item.findById(req.body.order_item);
-      await order_item.updateOne({ $push: { order: saveOrder._id } });
+      const orderItem = OrderItem.findById(req.body.orderItem);
+      await orderItem.updateOne({ $push: { order: saveOrder._id } });
       await stt.updateOne({ $push: { order: saveOrder._id } });
     }
     res.status(200).json(saveOrder);
@@ -30,7 +30,7 @@ exports.getOrder = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id)
       .populate('status')
-      .populate('order_item');
+      .populate('orderItem');
     //console.log(order.status)
     res.status(200).json(order);
   } catch (err) {
@@ -39,14 +39,14 @@ exports.getOrder = async (req, res) => {
 };
 exports.updateOrder = async (req, res) => {
   const id = req.params.id;
-  const {status,create_at,complete_at,order_item,shipping_code,user} = req.body;
+  const {status,create_at,complete_at,orderItem,shipping_code,user} = req.body;
   try {
     const order = await Order.findOne({_id:id});
     await order.updateOne({ $set: req.body });
     order.status = status;
     order.create_at = create_at;
     order.complete_at = complete_at;
-    order.order_item = order_item;
+    order.orderItem = orderItem;
     order.shipping_code = shipping_code;
     order.user = user;
     const updateordered = await order.save();
@@ -64,7 +64,7 @@ exports.deleteOrder = async (req, res)=>{
       {order: req.params.id},
       {$pull:{order:req.params.id}}
     );
-    await Order_item.updateMany(
+    await OrderItem.updateMany(
       {order:req.params.id},
       {$pull:{order:req.params.id}}
     );

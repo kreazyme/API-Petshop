@@ -1,5 +1,5 @@
 const Order = require('../database/models/orderModel');
-const Order_item = require('../database/models/order_itemModel');
+const OrderItem = require('../database/models/orderItemModel');
 const Status = require('../database/models/statusModel');
 
 exports.AddStatus = async (req, res) => {
