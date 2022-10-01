@@ -6,7 +6,7 @@
   "scripts": {
     "run": "node app.js",
     "dev": "nodemon app.js",
-    "start": "node app.js",
+    "start": "nodemon app.js",
     "prod": "node app.js"
   },
   "author": "Team1 PBL6",

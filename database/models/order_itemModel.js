@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 
 const order_itemSchema = new mongoose.Schema({
+    order:[
+    {
+      type:mongoose.Schema.Types.ObjectId,
+      ref:'Order',
+    },
+  ],
     amount: {
       type: Number,
       required:true,

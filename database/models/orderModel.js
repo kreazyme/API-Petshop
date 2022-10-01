@@ -5,22 +5,25 @@ const orderSchema = new mongoose.Schema({
     ref: 'Status',
   },
   create_at: {
-    type: Date,
+    type: String,
   },
   complete_at: {
-    type: Date,
+    type: String,
   },
-  order_item: {
+  order_item: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Order_item',
   },
+],
   shipping_code: {
     type: String,
-    required: true,
+    //required: true,
   },
-  user: {
+  user:[ 
+  {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
+],
 });
 module.exports = mongoose.model("Order", orderSchema);
