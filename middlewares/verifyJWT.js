@@ -1,15 +1,14 @@
 var jwt = require("jsonwebtoken")
 
 module.exports = (req, res, next) => {
-    const token = req.header('Authorization')
-    if (!token) return res.sendStatus(401)
     try {
+        const token = req?.header('Authorization')
+        if (!token || token === "") return res.sendStatus(401)
         const decoded = jwt.verify(token, process.env.SECRET_KEY)
         req.userId = decoded.id
-        next('router')
+        next()
     } catch (error) {
         console.log(error)
-        return res.sendStatus(403)
+        res.send(500).json(error)
     }
-    next();
 }
