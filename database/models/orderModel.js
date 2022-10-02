@@ -10,18 +10,21 @@ const orderSchema = new mongoose.Schema({
     ref: 'OrderItem',
     required: true,
   },
-],
+  ],
   shippingCode: {
     type: String,
     required: true,
   },
-  user:[ 
+  user: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+  ]
+},
   {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-],
-  timestamps: true,
-});
+    timestamps: true,
+  }
+);
 module.exports = mongoose.model("Order", orderSchema);
