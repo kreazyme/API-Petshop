@@ -39,7 +39,7 @@ exports.getOrder = async (req, res) => {
 };
 exports.updateOrder = async (req, res) => {
   const id = req.params.id;
-  const {status,create_at,complete_at,orderItem,shipping_code,user} = req.body;
+  const {status,create_at,complete_at,orderItem,shippingCode,user} = req.body;
   try {
     const order = await Order.findOne({_id:id});
     await order.updateOne({ $set: req.body });
@@ -47,7 +47,7 @@ exports.updateOrder = async (req, res) => {
     order.create_at = create_at;
     order.complete_at = complete_at;
     order.orderItem = orderItem;
-    order.shipping_code = shipping_code;
+    order.shippingCode = shippingCode;
     order.user = user;
     const updateordered = await order.save();
     return res.status(200).json({

@@ -11,7 +11,7 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
 ],
-  shipping_code: {
+  shippingCode: {
     type: String,
     required: true,
   },
