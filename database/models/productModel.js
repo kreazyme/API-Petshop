@@ -3,11 +3,13 @@ const productSchema = new mongoose.Schema({
   orderItem:{
     type:mongoose.Schema.Types.ObjectId,
     ref:'OrderItem',
+    required: true,
   },
   type: [
   {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Type',
+    required: true,
   },
 ],
   title: {
@@ -18,6 +20,7 @@ const productSchema = new mongoose.Schema({
     {
     type:mongoose.Schema.Types.ObjectId,
     ref:'Assets',
+    required: true,
   },
 ],
   description: {
@@ -28,12 +31,14 @@ const productSchema = new mongoose.Schema({
   {
     type:mongoose.Schema.Types.ObjectId,
     ref:'Feedback',
+    required: true,
   },
 ],
   category:[
   {
     type:mongoose.Schema.Types.ObjectId,
     ref:'Category',
+    required: true,
   },
 ],
 });
