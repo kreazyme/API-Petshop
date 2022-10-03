@@ -1,30 +1,41 @@
 var generator = require('generate-password');
 var User = require("../database/models/userModel");
+
+const bcrypt = require("bcrypt")
 const { generateToken } = require('../middlewares/authJWT');
 const verifyToken = require("../middlewares/verifyJWT");
 
 exports.createUser = async (req, res, next) => {
+    const salt = await bcrypt.genSalt(10);
+    const password = await bcrypt.hash(req.body.password, salt)
     var user = new User({
         userName: req.body.username,
         name: req.body.name,
-        password: req.body.password,
+        password: password,
         role: req.body.role,
     });
-    user.save((error, result) => {
-        res.send(result)
-        next();
-        if (error) {
-            console.log("Error at user Controller: " + error);
-            throw new Error(error)
-        }
-    })
+    try {
+        user.save((error, result) => {
+            if (error) {
+                res.status(422).json(error)
+                console.log("Error at user Controller: " + error);
+                throw new Error(error)
+            }
+            res.send(result)
+            next();
+        })
+    }
+    catch (error) {
+        console.log("Error");
+    }
 }
 
 exports.login = async (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
     var user = await User.findOne({ userName: username })
-    if (user.password === password) {
+    const match = await bcrypt.compare(password, user.password)
+    if (match) {
         const token = generateToken(user);
         res.send(JSON.stringify(token))
     }
@@ -48,7 +59,6 @@ exports.updateUser = async (req, res, next) => {
         },
         {
             name: req.body.name,
-            password: req.body.password,
             role: req.body.role,
         },
         {
@@ -64,12 +74,14 @@ exports.forgotPassword = async (req, res, next) => {
         numbers: true,
         lowercase: true,
     })
+    const salt = await bcrypt.genSalt(10);
+    const encryptPassword = await bcrypt.hash(password, salt)
     await User.findOneAndUpdate(
         {
             userName: username
         },
         {
-            password: password
+            password: encryptPassword
         },
         {
             upsert: true
