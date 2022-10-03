@@ -12,3 +12,10 @@ exports.AddProduct= async (req, res)=>{
         res.status(500).json(err);
       }
 };
+exports.getAProduct = async (req, res) => {
+  try{
+
+  }catch(err){
+    res.status(500).json(err);
+  }
+}
