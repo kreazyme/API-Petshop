@@ -93,7 +93,7 @@ exports.deleteUser = async (req, res, next) => {
     const username = req.body.username;
     var user = await User.findOne({ userName: username }).exec();
     if (!user) {
-        res.status(400).json({ success: false, decription: "no user found!" })
+        res.status(400).json({ success: false, decription: "No user found!" })
     }
     else
         User.findOneAndDelete({ userName: username }).exec().then(() => {

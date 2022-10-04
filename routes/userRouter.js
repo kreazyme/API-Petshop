@@ -10,15 +10,14 @@ router.use(express.json())
 
 router.post('/signin', userController.createUser);
 
-// router.get("/detailuser", userController.detailUser)
 router.route("/detail").get(verifyJWT, userController.detailUser)
 
-router.get("/updateuser", userController.updateUser)
+router.route("/updateuser").get(verifyJWT, userController.updateUser)
 
 router.get("/forgotpassword", userController.forgotPassword)
 
 router.get("/login", userController.login)
 
-router.delete("/deleteaccout", userController.deleteUser)
+router.route("/deleteaccout").get(verifyJWT, userController.deleteUser)
 
 module.exports = router;
