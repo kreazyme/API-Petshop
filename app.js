@@ -10,6 +10,7 @@ var SttRoute= require('./routes/statusRouter');
 const productRoute= require('./routes/productRouter');
 const orderItemRoute = require('./routes/orderItem');
 const categoryRoute = require('./routes/categoryRouter');
+const typeRoute = require('./routes/typeRouter');
 const verifyToken = require("./middlewares/authJWT");
 
 dbConnect();
@@ -19,6 +20,7 @@ app.use('/status', SttRoute);
 app.use('/orderItem',orderItemRoute);
 app.use('/product',productRoute);
 app.use('/category', categoryRoute);
+app.use('/type',typeRoute);
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
