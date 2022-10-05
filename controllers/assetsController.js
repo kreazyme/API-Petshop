@@ -11,14 +11,6 @@ exports.addAAssets =  async (req, res)=>{
         res.status(500).json(err);
     }
 };
-exports.getAllAssets  = async (req, res)=>{
-    try{
-        const allAssets = await Assets.find();
-        res.status(200).json(allAssets);
-    }catch(err){
-        res.status(500).json(err);
-    }
-};
 exports.getAAssets = async (req, res) => {
     try{
         const assets = await Assets.findById(req.params.id);
