@@ -13,7 +13,7 @@ const orderSchema = new mongoose.Schema({
   ],
   shippingCode: {
     type: String,
-    required: true,
+    //required: true,
   },
   user: [
     {
