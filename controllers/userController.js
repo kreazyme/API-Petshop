@@ -3,6 +3,7 @@ var User = require("../database/models/userModel");
 
 const bcrypt = require("bcrypt")
 const { generateToken } = require('../middlewares/authJWT');
+const verifyToken = require("../middlewares/verifyJWT");
 
 exports.createUser = async (req, res, next) => {
     const salt = await bcrypt.genSalt(10);
@@ -92,7 +93,7 @@ exports.deleteUser = async (req, res, next) => {
     const username = req.body.username;
     var user = await User.findOne({ userName: username }).exec();
     if (!user) {
-        res.status(400).json({ success: false, decription: "no user found!" })
+        res.status(400).json({ success: false, decription: "No user found!" })
     }
     else
         User.findOneAndDelete({ userName: username }).exec().then(() => {
