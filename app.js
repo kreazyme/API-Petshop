@@ -10,8 +10,8 @@ var SttRoute  = require('./routes/statusRouter');
 var productRoute  = require('./routes/productRouter');
 var orderItemRoute = require('./routes/orderItem');
 const categoryRoute = require('./routes/categoryRouter');
-
-
+var typeRoute = require('./routes/typeRouter');
+var asset  = require('./routes/assetsRouter');
 const verifyToken = require("./middlewares/verifyJWT");
 
 dbConnect();
