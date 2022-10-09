@@ -4,6 +4,7 @@ var User = require("../database/models/userModel");
 const bcrypt = require("bcrypt")
 const { generateToken } = require('../middlewares/authJWT');
 const verifyToken = require("../middlewares/verifyJWT");
+const createRefreshToken = require('../middlewares/refreshToken');
 
 exports.createUser = async (req, res, next) => {
     const salt = await bcrypt.genSalt(10);
@@ -37,7 +38,8 @@ exports.login = async (req, res, next) => {
     const match = await bcrypt.compare(password, user.password)
     if (match) {
         const token = generateToken(user);
-        res.send(JSON.stringify(token))
+        const refreshToken = await createRefreshToken(user, res)
+        res.send(JSON.stringify({ token, refreshToken }))
     }
     else {
         res.status(401).json({ status: false, description: "Wrong password or username" })
