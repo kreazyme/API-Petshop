@@ -7,7 +7,7 @@ router.use(express.json());
 
 router.post('/', orderController.addOrder);
 router.get('/', orderController.getAllOrder);
-router.get('/:id', orderController.getMyOrder);
+router.get('/:id', orderController.getOrder);
 router.put('/:id',orderController.updateOrder);
 router.delete('/:id',orderController.deleteOrder);
 

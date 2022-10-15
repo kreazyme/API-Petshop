@@ -1,4 +1,5 @@
 var express = require('express');
+const morgan = require('morgan');
 require('dotenv').config();
 var bodyParser = require('body-parser');
 
@@ -13,7 +14,7 @@ const categoryRoute = require('./routes/categoryRouter');
 var typeRoute = require('./routes/typeRouter');
 var asset  = require('./routes/assetsRouter');
 const verifyToken = require("./middlewares/verifyJWT");
-
+app.use(morgan('dev'));
 dbConnect();
 app.use('/auth', userRouter);
 app.use('/order',  orderRoute);
