@@ -15,6 +15,7 @@ const feedbackSchema = new mongoose.Schema({
   feedbackReply: {
     type:mongoose.Schema.Types.ObjectId,
     ref:'FeedbackReply',
+    required: false
   },
 },
 {
