@@ -8,13 +8,13 @@ const feedbackSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
-  assets: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Assets',
-  },
-  reply: {
+  // assets: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Assets',
+  // },
+  feedbackReply: {
     type:mongoose.Schema.Types.ObjectId,
-    ref:'Reply',
+    ref:'FeedbackReply',
   },
 },
 {

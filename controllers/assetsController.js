@@ -1,12 +1,34 @@
+const multer = require('multer');
 const Assets = require('../database/models/assetsModel');
 const Product = require('../database/models/productModel');
+const Path = require('path');
+
+const Storage = multer.diskStorage({
+    destination:'public/images',
+    filename:(req,file,cb)=>{
+        cb(null,file.originalname)
+    }
+})
+
+const upload =multer({
+    storage:Storage
+}).single('testImage');
 
 exports.addAAssets =  async (req, res)=>{
     try{
-        const newAssets = new Assets(req.body);
-        const saveAssets = await newAssets.save();
-
-        res.status(200).send(saveAssets);
+        upload(req,res,(err)=>{
+            const newAssets = new Assets({
+                image:{
+                    data:req.body.file,
+                    contentType:'image/png'
+                },
+                type : req.body.type
+             });
+           //  newAssets.save().then(() =>res.send('Successfully uploaded'));
+            // const saveAssets = await newAssets.save();
+        })
+        
+        res.status(200).send('successfully');
     }catch(err){
         res.status(500).json(err);
     }

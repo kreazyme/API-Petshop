@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const assetSchema = new mongoose.Schema(
   {
-    url: {
-      type: String,
-      required: true,
+    image: {
+      data:Buffer,
+      contentType:String
     },
     type: {
       type: String,
@@ -14,4 +14,4 @@ const assetSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-module.exports = mongoose.model('Assets', assetSchema);
+module.exports = assetsModel = mongoose.model('Assets', assetSchema);

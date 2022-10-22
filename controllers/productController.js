@@ -5,21 +5,19 @@ const Category = require('../database/models/categoryModel');
 
 
 exports.AddProduct = async (req, res) => {
-  try {
+  
     const newProduct = new Product(req.body);
     const saveProduct = await newProduct.save();
     if (req.body.type || req.body.assets || req.body.category) {
       const type = Type.findById(req.body.type);
       const assets = Assets.findById(req.body.assets);
       const category = Category.findById(req.body.category);
-      await type.updateOne({ $push: { product: saveProduct._id } });
-      await assets.updateOne({ $push: { product: saveProduct._id } });
-      await category.updateOne({ $push: { product: saveProduct._id } });
+      await type.updateOne({ $push: { newProduct: saveProduct._id } });
+      await assets.updateOne({ $push: { newProduct: saveProduct._id } });
+      await category.updateOne({ $push: { newProduct: saveProduct._id } });
     }
     res.status(200).json(saveProduct);
-  } catch (err) {
-    res.status(500).json(err);
-  }
+  
 };
 exports.getAllProduct = async (req, res) => {
   try {

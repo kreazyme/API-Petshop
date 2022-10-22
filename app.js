@@ -12,7 +12,9 @@ var orderItemRoute = require('./routes/orderItem');
 const categoryRoute = require('./routes/categoryRouter');
 const assetsRouter = require("./routes/assetsRouter");
 const typeRouter = require("./routes/typeRouter");
-const verifyToken = require("./middlewares/authJWT");
+const feedbackRouter = require("./routes/feedbackRouter");
+const feedbackReplyRouter = require("./routes/feedbackReplyRouter");
+//const verifyToken = require("./middlewares/authJWT");
 
 
 const verifyToken = require("./middlewares/verifyJWT");
@@ -28,6 +30,8 @@ app.use('/product',  productRoute);
 app.use('/category', categoryRoute);
 app.use('/assets',assetsRouter);
 app.use('/type',typeRouter);
+app.use('/feedback',feedbackRouter);
+app.use('/feedbackReply',feedbackReplyRouter);
 
 app.use(express.json())
 app.use(verifyToken)
