@@ -1,12 +1,12 @@
-var express = require('express');
-var router = express.Router();
-const typeController = require('../controllers/typeController');
+const express = require('express');
+const router = express.Router();
+const typeController =  require('../controllers/typeController');
 router.use(express.json());
 
-// add status
-router.post('/', typeController.AddType);
-router.get('/:id', typeController.getType);
+router.post('/',typeController.addAType);
+router.get('/',typeController.getAllType);
+router.get('/:id', typeController.getAType);
 router.put('/:id', typeController.updateType);
-router.delete('/:id', typeController.deleteType);
+router.delete('/:id',typeController.deleteType);
 
 module.exports = router;

@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const addressSchema = new mongoose.Schema({
-  province: {
+  provice: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Province',
+    ref: 'Provice',
   },
   district: {
     type: mongoose.Schema.Types.ObjectId,
