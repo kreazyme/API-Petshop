@@ -14,6 +14,10 @@ const assetsRouter = require("./routes/assetsRouter");
 const typeRouter = require("./routes/typeRouter");
 const feedbackRouter = require("./routes/feedbackRouter");
 const feedbackReplyRouter = require("./routes/feedbackReplyRouter");
+const addressRouter = require("./routes/addressRouter");
+const townRouter = require("./routes/townRouter");
+const proviceRouter = require("./routes/proviceRouter");
+const districtRouter = require("./routes/districtRouter");
 //const verifyToken = require("./middlewares/authJWT");
 
 
@@ -32,6 +36,10 @@ app.use('/assets',assetsRouter);
 app.use('/type',typeRouter);
 app.use('/feedback',feedbackRouter);
 app.use('/feedbackReply',feedbackReplyRouter);
+app.use('/address',addressRouter);
+app.use('/provice',proviceRouter);
+app.use('/town',townRouter);
+app.use('/district',districtRouter);
 
 app.use(express.json())
 app.use(verifyToken)
