@@ -1,21 +1,21 @@
 const Provice = require('../database/models/proviceModel');
-const OrderItem = require('../database/models/orderItemModel');
-const Status = require('../database/models/statusModel');
-const Product = require('../database/models/productModel');
+const Town = require('../database/models/townModel');
+const District = require('../database/models/districtModel');
+const Address = require('../database/models/addressModel');
 
-exports.AddProduct = async (req, res) => {
-  try {
-    const newProduct = new Product(req.body);
-    const save = await newProduct.save();
-    res.status(200).json(save);
-  } catch (err) {
-    res.status(500).json(err);
-  }
+
+exports.AddAddress = async (req, res) => {
+  
+    const newAddress = new Address(req.body);
+    const saveAddress = await newAddress.save();
+    if (req.body.district || req.body.provice || req.body.town) {
+      const district = District.findById(req.body.district);
+      const provice = Provice.findById(req.body.provice);
+      const town = Town.findById(req.body.town);
+      await district.updateOne({ $push: { newAddress: saveAddress._id } });
+      await provice.updateOne({ $push: { newAddress: saveAddress._id } });
+      await town.updateOne({ $push: { newAddress: saveAddress._id } });
+    }
+    res.status(200).json(saveAddress);
+  
 };
-exports.getAllProduct = async (req, res) => {
-  try {
-
-  } catch (err) {
-    res.status(500).json(err);
-  }
-}
