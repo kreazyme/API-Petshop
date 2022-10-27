@@ -3,20 +3,29 @@ const userSchema = new mongoose.Schema(
   {
     userName: {
       type: String,
-      //required: true,
+      required: true,
+      trim: true,
     },
     name: {
       type: String,
-      
+      required: true,
+      trim: true,
     },
     password: {
       type: String,
-      
+      required: true,
     },
-    role: Boolean,
+    role: {
+      type: Number,
+      default: 0,
+    },
+    order: {
+      type: Array,
+      default: [],
+    },
     address: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Address',
+      type: Number,
+      default: '',
       // required: true,
     },
   },
