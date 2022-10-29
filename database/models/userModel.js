@@ -3,21 +3,22 @@ const userSchema = new mongoose.Schema(
   {
     userName: {
       type: String,
-      required: true,
+      required: [true,"Hãy điền thông tin"],
       trim: true,
+      unique: true,
     },
     name: {
       type: String,
-      required: true,
+      required: [true,"Hãy điền thông tin"],
       trim: true,
     },
     password: {
       type: String,
-      required: true,
+      required: [true,"Hãy điền thông tin"],
     },
     role: {
       type: Number,
-      default: 0,
+      default: 0, // 0 = user , 1=admin
     },
     order: {
       type: Array,
@@ -26,7 +27,6 @@ const userSchema = new mongoose.Schema(
     address: {
       type: Number,
       default: '',
-      // required: true,
     },
   },
   {
