@@ -8,6 +8,10 @@ const typeSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  amount : {
+    type : Number,
+    required:true  
+  }
 });
 
 module.exports = mongoose.model('Type', typeSchema);
