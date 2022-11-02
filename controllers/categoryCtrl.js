@@ -1,5 +1,5 @@
-const Category = require('../models/categoryModel')
-const Products = require('../models/productModel')
+const Category = require('../database/models/categoryModel')
+const Products = require('../database/models/productModel')
 
 const categoryCtrl = {
     getCategories: async(req, res) =>{

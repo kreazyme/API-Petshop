@@ -1,5 +1,5 @@
-const Type = require('../models/typeModel');
-const Products = require('../models/productModel');
+const Type = require('../database/models/typeModel');
+const Products = require('../database/models/productModel');
 
 const typeCtrl = {
   getTypes: async (req, res) => {

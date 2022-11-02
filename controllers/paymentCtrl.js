@@ -1,6 +1,6 @@
-const Payments = require('../models/paymentModel')
-const Users = require('../models/userModel')
-const Products = require('../models/productModel')
+const Payments = require('../database/models/paymentModel')
+const Users = require('../database/models/userModel')
+const Products = require('../database/models/productModel')
 
 
 const paymentCtrl = {

@@ -1,5 +1,5 @@
-const Users = require('../models/userModel')
-const Payments = require('../models/paymentModel')
+const Users = require('../database/models/userModel')
+const Payments = require('../database/models/paymentModel')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 

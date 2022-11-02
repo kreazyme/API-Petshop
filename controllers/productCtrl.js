@@ -1,4 +1,4 @@
-const Products = require('../models/productModel')
+const Products = require('../database/models/productModel')
 
 // Filter, sorting and paginating
 
