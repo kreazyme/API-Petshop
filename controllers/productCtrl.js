@@ -20,6 +20,7 @@ class APIfeatures {
     //    lte = lesser than or equal = nhỏ hơn hoặc bằng
     //    lt = lesser than = ít hơn
     //    gt = greater than = lớn hơn 
+    // regex = search to nung sue 
        this.query.find(JSON.parse(queryStr))
        return this;
     }
@@ -64,7 +65,7 @@ const productCtrl = {
     },
     createProduct: async(req, res) =>{
         try {
-            const {product_id,type, title, description, amount, images, category} = req.body;
+            const {product_id,type, title, description, amount, images, category,price} = req.body;
             if(!images) return res.status(400).json({msg: "Không có hình ảnh tải lên"})
 
             const product = await Products.findOne({product_id})
@@ -72,7 +73,7 @@ const productCtrl = {
                 return res.status(400).json({msg: "Sản phẩm này đã tồn tại."})
 
             const newProduct = new Products({
-                product_id,type, title:title.toLowerCase(), description, amount, images, category
+                product_id,type, title:title.toLowerCase(), description, amount, images, category,price
             })
 
             await newProduct.save()
@@ -92,11 +93,11 @@ const productCtrl = {
     },
     updateProduct: async(req, res) =>{
         try {
-            const {type, title, description, amount, images, category} = req.body;
+            const {type, title, description, amount, images, category,price} = req.body;
             if(!images) return res.status(400).json({msg: "Không có hình ảnh tải lên"})
 
             await Products.findOneAndUpdate({_id: req.params.id}, {
-                type, title:title.toLowerCase(), description, amount, images, category
+                type, title:title.toLowerCase(), description, amount, images, category,price
             })
 
             res.json({msg: "Đã cập nhật một sản phẩm"})

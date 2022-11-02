@@ -18,6 +18,7 @@ app.use(fileUpload({
 // Routes
 app.use('/user', require('./routes/userRouter'))
 app.use('/api', require('./routes/categoryRouter'))
+app.use('/api', require('./routes/typeRouter'))
 app.use('/api', require('./routes/upload'))
 app.use('/api', require('./routes/productRouter'))
 app.use('/api', require('./routes/paymentRouter'))
@@ -27,8 +28,8 @@ app.use('/api', require('./routes/paymentRouter'))
 // Connect to mongodb
 const URI = process.env.MONGODB_URL
 mongoose.connect(URI, {
-    useCreateIndex: true,
-    useFindAndModify: false,
+    //useCreateIndex: true,
+    //useFindAndModify: false,
     useNewUrlParser: true,
     useUnifiedTopology: true
 }, err =>{
