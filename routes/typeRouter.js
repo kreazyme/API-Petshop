@@ -6,6 +6,6 @@ const authAdmin = require('../middleware/authAdmin');
 router
   .route('/type')
   .get(typeCtrl.getTypes)
-  .post(typeCtrl.createType);
+  .post(auth,authAdmin,typeCtrl.createType);
 
 module.exports = router;
