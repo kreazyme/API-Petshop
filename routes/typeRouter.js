@@ -9,3 +9,4 @@ router
   .post(auth,authAdmin,typeCtrl.createType);
 
 module.exports = router;
+// hello mother fck
