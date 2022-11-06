@@ -10,7 +10,7 @@ const TownCtrl = {
         const {name} = req.body;
         const town = await Town.findOne({name})
         if(town){
-            res.status(400).json({msg:"Has been Town thu lai di dit me"});
+            res.status(400).json({msg:"Has been Town"});
         }
         const newTown = new Town({name});
         await newTown.save();
