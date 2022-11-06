@@ -22,6 +22,7 @@ app.use('/api', require('./routes/typeRouter'))
 app.use('/api', require('./routes/imgRouter'))
 app.use('/api', require('./routes/productRouter'))
 app.use('/api', require('./routes/paymentRouter'))
+app.use('/feedback', require('./routes/feedbackRouter'))
 
 
 
@@ -32,12 +33,12 @@ mongoose.connect(URI, {
     useFindAndModify: false,
     useNewUrlParser: true,
     useUnifiedTopology: true
-}, err =>{
-    if(err) throw err;
+}, err => {
+    if (err) throw err;
     console.log('Connected to MongoDB')
 })
 
-if(process.env.NODE_ENV === 'production'){
+if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'))
     app.get('*', (req, res) => {
         res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
@@ -47,6 +48,6 @@ if(process.env.NODE_ENV === 'production'){
 
 
 const PORT = process.env.PORT || 5000
-app.listen(PORT, () =>{
+app.listen(PORT, () => {
     console.log('Server is running on port', PORT)
 })
