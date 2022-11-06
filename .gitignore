@@ -1,1 +1,5 @@
 node_modules
+/yarn.lock
+yarn.lock
+*.lock
+/*.lock
