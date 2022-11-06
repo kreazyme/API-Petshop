@@ -19,7 +19,7 @@ app.use(fileUpload({
 app.use('/user', require('./routes/userRouter'))
 app.use('/api', require('./routes/categoryRouter'))
 app.use('/api', require('./routes/typeRouter'))
-app.use('/api', require('./routes/upload'))
+app.use('/api', require('./routes/imgRouter'))
 app.use('/api', require('./routes/productRouter'))
 app.use('/api', require('./routes/paymentRouter'))
 
