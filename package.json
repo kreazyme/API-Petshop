@@ -30,6 +30,7 @@
     "react-icons": "^4.6.0"
   },
   "devDependencies": {
+    "@types/mongoose": "^5.11.97",
     "nodemon": "^2.0.4"
   }
 }
