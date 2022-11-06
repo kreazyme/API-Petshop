@@ -10,10 +10,11 @@ const typeSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    product:{
-        type:String,
-        required: true,
-    }
+    product:
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Products',
+      },
   },
   {
     timestamps: true,
