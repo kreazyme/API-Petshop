@@ -5,7 +5,7 @@ const districtCtrl = require('../../controllers/address/districtCtrl')
 
 router.route('/district')
     .get(districtCtrl.getDistrict)
-    .post(districtCtrl.createDistrict)
+    .post(auth,authAdmin,districtCtrl.createDistrict)
 
 
 module.exports = router
