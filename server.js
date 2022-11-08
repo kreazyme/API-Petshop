@@ -23,6 +23,9 @@ app.use('/api', require('./routes/imgRouter'))
 app.use('/api', require('./routes/productRouter'))
 app.use('/api', require('./routes/paymentRouter'))
 app.use('/feedback', require('./routes/feedbackRouter'))
+app.use('/api', require('./routes/address/townRouter'))
+app.use('/api', require('./routes/address/district'))
+app.use('/api', require('./routes/address/province'))
 
 
 

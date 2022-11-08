@@ -8,6 +8,9 @@ router.route('/products')
     .get(productCtrl.getProducts)
     .post(auth, authAdmin, productCtrl.createProduct)
 
+router.route('/products/search')
+    .get(productCtrl.searchProduct)
+
 
 router.route('/products/:id')
     .delete(auth, authAdmin, productCtrl.deleteProduct)
