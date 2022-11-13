@@ -2,13 +2,9 @@ const mongoose = require('mongoose');
 
 const addrSchema = new mongoose.Schema(
   {
-    firstName: {
-      type: String,
-      required: true,
-    },
-    lastName: {
-      type: String,
-      required: true,
+    nameCustomer:{
+      type:String,
+      required:true
     },
     province: {
       type: String,
@@ -32,7 +28,7 @@ const addrSchema = new mongoose.Schema(
     },
     delivery: {
         type: String,
-        required: true,
+        //required: true,
     },
   },
   {
