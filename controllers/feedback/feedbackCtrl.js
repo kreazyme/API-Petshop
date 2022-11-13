@@ -8,7 +8,7 @@ const feedbackCtrl = {
                 content: content,
                 rating: rating,
                 images: images,
-                product_id: productId ?? "12"
+                product_id: productId
             })
             await feedback.save()
             res.send(JSON.stringify(feedback))

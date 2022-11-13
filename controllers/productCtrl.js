@@ -65,7 +65,7 @@ const productCtrl = {
     },
     createProduct: async (req, res) => {
         try {
-            const { product_id, type, title, description, amount, images, category, price } = req.body;
+            const { product_id, type, title, description, images, category } = req.body;
             if (!images) return res.status(400).json({ msg: "Không có hình ảnh tải lên" })
 
             const product = await Products.findOne({ product_id })
@@ -73,7 +73,7 @@ const productCtrl = {
                 return res.status(400).json({ msg: "Sản phẩm này đã tồn tại." })
 
             const newProduct = new Products({
-                product_id, type, title: title.toLowerCase(), description, amount, images, category, price
+                product_id, type, title: title.toLowerCase(), description, images, category
             })
 
             await newProduct.save()
@@ -93,11 +93,11 @@ const productCtrl = {
     },
     updateProduct: async (req, res) => {
         try {
-            const { type, title, description, amount, images, category, price } = req.body;
+            const { type, title, description, images, category} = req.body;
             if (!images) return res.status(400).json({ msg: "Không có hình ảnh tải lên" })
 
             await Products.findOneAndUpdate({ _id: req.params.id }, {
-                type, title: title.toLowerCase(), description, amount, images, category, price
+                type, title: title.toLowerCase(), description, images, category
             })
 
             res.json({ msg: "Đã cập nhật một sản phẩm" })

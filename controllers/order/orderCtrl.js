@@ -18,6 +18,7 @@ const orderCtrl = {
             for (let item = 0; item < orderItems.length; item++) {
                 const productItem = await Products.findOne({ product_id: orderItems[item].product_id });
                 if (productItem) {
+                    
                     const orderItem = OrderItems({
                         order_id: order._id,
                         product_id: orderItems[item].product_id,
@@ -27,6 +28,11 @@ const orderCtrl = {
                     const itemPrice = await typeCtrl.getPricebyId(orderItems[item].type_id);
                     if (itemPrice === 0) {
                         res.send({ msg: "Wrong type id" });
+                        return;
+                    }
+                    const itemAmount = await typeCtrl.getAmountbyId(orderItems[item].type_id);
+                    if (itemAmount === 0) {
+                        res.send({ msg: "Number of products available is zero" });
                         return;
                     }
                     console.log(itemPrice);
@@ -49,6 +55,50 @@ const orderCtrl = {
             res.json(orders)
         } catch (err) {
             return res.status(500).json({ msg: err.message })
+        }
+    },
+    updateOrder: async (req, res) => {
+        try {
+            const { user_id, orderItems, address, phone } = req.body;
+            await Orders.findOneAndUpdate({ _id: req.params.id }, {
+                user_id, orderItems, address, phone
+            })
+
+            let price = 0;
+            for (let item = 0; item < orderItems.length; item++) {
+                const productItem = await Products.findOne({ product_id: orderItems[item].product_id });
+                if (productItem) {
+                    
+                    const orderItem = OrderItems({
+                        order_id: req.params.id,
+                        product_id: orderItems[item].product_id,
+                        amount: orderItems[item].amount,
+                        type_id: orderItems[item].type_id,
+                    });
+                    const itemPrice = await typeCtrl.getPricebyId(orderItems[item].type_id);
+                    if (itemPrice === 0) {
+                        res.send({ msg: "Wrong type id" });
+                        return;
+                    }
+                    const itemAmount = await typeCtrl.getAmountbyId(orderItems[item].type_id);
+                    if (itemAmount === 0) {
+                        res.send({ msg: "Number of products available is zero" });
+                        return;
+                    }
+                    console.log(itemPrice);
+                    console.log(itemAmount);
+                    price += itemPrice * orderItems[item].amount;
+                    orderItem.save();
+                }
+            }
+            
+            await Orders.findOneAndUpdate({ _id: req.params.id }, {
+                user_id, orderItems, address, phone,total: price
+            })
+            res.send({ message: "Order update successfully"  });
+        }
+        catch (err) {
+            return res.status(500).json({ msg: err.message });
         }
     },
 }
