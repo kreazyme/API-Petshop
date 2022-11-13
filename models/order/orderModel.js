@@ -8,7 +8,8 @@ const orderSchema = new mongoose.Schema({
     },
     total: {
         type: Number,
-        required: true
+        required: true,
+        default: 0.0
     },
     status: {
         type: String,
@@ -17,6 +18,7 @@ const orderSchema = new mongoose.Schema({
     },
     address: {
         type: String,
+        default: "64 Nguyen Luong Bang",
         required: true
     },
     phone: {

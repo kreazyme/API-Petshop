@@ -10,6 +10,15 @@ const typeCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  getPricebyId: async (id) => {
+    try {
+      const product = await Type.findById({ _id: id });
+      return product.price;
+    }
+    catch (err) {
+      return 0;
+    }
+  },
   createType: async (req, res) => {
     try {
       const type = new Type(req.body);

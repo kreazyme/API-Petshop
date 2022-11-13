@@ -4,6 +4,7 @@ const auth = require('../middleware/auth')
 const authAdmin = require('../middleware/authAdmin')
 
 router.route('/orders')
-    .get(auth, orderCtrl.getOrdersbyID)
+    .get(orderCtrl.getOrdersbyID)
+    .post(orderCtrl.createOrder)
 
 module.exports = router
