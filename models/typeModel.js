@@ -10,6 +10,10 @@ const typeSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    amount: {
+      type: Number,
+      required: true,
+    },
     product:
       {
         type: mongoose.Schema.Types.ObjectId,

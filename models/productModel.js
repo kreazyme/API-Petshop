@@ -8,10 +8,6 @@ const productSchema = new mongoose.Schema(
       trim: true,
       required: true,
     },
-    price: {
-      type: Number,
-      required: true,
-    },
     types: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Type',
@@ -24,10 +20,6 @@ const productSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      required: true,
-    },
-    amount: {
-      type: Number,
       required: true,
     },
     images: {

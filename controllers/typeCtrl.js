@@ -19,6 +19,15 @@ const typeCtrl = {
       return 0;
     }
   },
+  getAmountbyId: async (id) => {
+    try {
+      const product = await Type.findById({ _id: id });
+      return product.amount;
+    }
+    catch (err) {
+      return 0;
+    }
+  },
   createType: async (req, res) => {
     try {
       const type = new Type(req.body);
