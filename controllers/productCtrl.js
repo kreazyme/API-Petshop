@@ -1,6 +1,7 @@
 const Products = require('../models/productModel')
-
+const Type = require('../models/typeModel')
 // Filter, sorting and paginating
+
 
 class APIfeatures {
     constructor(query, queryString) {
@@ -65,24 +66,41 @@ const productCtrl = {
     },
     createProduct: async (req, res) => {
         try {
-            const { product_id, type, title, description, images, category } = req.body;
-            if (!images) return res.status(400).json({ msg: "Không có hình ảnh tải lên" })
-
-            const product = await Products.findOne({ product_id })
-            if (product)
-                return res.status(400).json({ msg: "Sản phẩm này đã tồn tại." })
-
-            const newProduct = new Products({
-                product_id, type, title: title.toLowerCase(), description, images, category
-            })
-
-            await newProduct.save()
-            res.json({ msg: "Đã tạo ra một sản phẩm", newProduct })
-
+          const { types, title, description, images, category } = req.body;
+          var listType = [];
+    
+          product_id = `PET5000`;
+          for (var i = 0; i < types.length; i++) {
+            const typeItem = new Type({
+              name: types[i].name,
+              price: types[i].price,
+              amount: types[i].amount,
+            });
+            listType.push(typeItem);
+          }
+          if (!images)
+            return res.status(400).json({ msg: "Không có hình ảnh tải lên" });
+    
+          const product = await Products.findOne({ product_id });
+          if (product)
+            return res.status(400).json({ msg: "Sản phẩm này đã tồn tại." });
+    
+          const newProduct = new Products({
+            product_id: product_id,
+            types: listType,
+            title: title.toLowerCase(),
+            description: description,
+            images: images,
+            category: category,
+          });
+    
+            await newProduct.save();
+          res.json({ msg: "Product create!", newProduct });
         } catch (err) {
-            return res.status(500).json({ msg: err.message })
+          console.log(err);
+          return res.status(500).json({ msg: "Internal Server" });
         }
-    },
+      },
     deleteProduct: async (req, res) => {
         try {
             await Products.findByIdAndDelete(req.params.id)
