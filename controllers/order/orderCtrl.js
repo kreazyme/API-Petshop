@@ -16,7 +16,7 @@ const orderCtrl = {
             order.save();
             let price = 0;
             for (let item = 0; item < orderItems.length; item++) {
-                const productItem = await Products.findOne({ product_id: orderItems[item].product_id });
+                const productItem = await Products.findOne({ _id: orderItems[item].product_id });
                 if (productItem) {
                     
                     const orderItem = OrderItems({

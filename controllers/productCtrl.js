@@ -1,5 +1,8 @@
 const Products = require('../models/productModel')
 const Type = require('../models/typeModel')
+const DetailProduct=require('../models/detailProductModel')
+const Feedbacks = require('../../models/feedback/feedbackModel');
+const feedbackCtrl = require('./feedback/feedbackCtrl');
 // Filter, sorting and paginating
 
 
@@ -69,7 +72,6 @@ const productCtrl = {
           const { types, title, description, images, category } = req.body;
           var listType = [];
     
-          product_id = `PET5000`;
           for (var i = 0; i < types.length; i++) {
             const typeItem = new Type({
               name: types[i].name,
@@ -81,17 +83,17 @@ const productCtrl = {
           if (!images)
             return res.status(400).json({ msg: "Không có hình ảnh tải lên" });
     
-          const product = await Products.findOne({ product_id });
+          const product = await Products.findOne({ title });
           if (product)
             return res.status(400).json({ msg: "Sản phẩm này đã tồn tại." });
     
           const newProduct = new Products({
-            product_id: product_id,
             types: listType,
             title: title.toLowerCase(),
             description: description,
             images: images,
             category: category,
+
           });
     
             await newProduct.save();
@@ -128,6 +130,28 @@ const productCtrl = {
             const { searchToken } = req.body
             const products = await Products.find({ title: { "$regex": searchToken, "$options": "i" } });
             res.send(JSON.stringify(products));
+        }
+        catch (error) {
+            res.send(JSON.stringify(error))
+        }
+    },
+    getDetailProduct:async (req, res) => {
+        try {
+            const { productId } = req.body
+            const product = await Products.find({ _id: productId })
+            const feedback = await feedbackCtrl.getFeedbackByProductID(productId);
+            
+            const newDetailProduct = new DetailProducts({
+                types: product.types,
+                title: product.title.toLowerCase(),
+                description: product.description,
+                images: product.images,
+                category: product.category,
+                feedbacks: feedback
+    
+              });
+
+            res.send(JSON.stringify(newDetailProduct))
         }
         catch (error) {
             res.send(JSON.stringify(error))
