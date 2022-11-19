@@ -1,14 +1,21 @@
 const Users = require('../models/userModel')
+const jwt = require('jsonwebtoken')
 
-const authMe = async () => {
+const authMe = async (req) => {
     try {
-        // Get user information by id
-        const user = await Users.findOne({
-            _id: req.user.id
-        })
-        return user.id  // Return user id
+        const token = req.header("Authorization")
+        if (!token) {
+            return false
+        }
+        const user = jwt.decode(token);
+        if (user.role === 0) {
+            return false;
+        }
+        else {
+            return user.id;
+        }
     } catch (err) {
-        return res.status(500).json({ msg: err.message })
+        throw err
     }
 }
 

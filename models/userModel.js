@@ -19,16 +19,12 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    order: {
-        type: Array,
-        default: []
-    },
-    address:{
-        type:String,
+    address: {
+        type: String,
         default: "Hay dien thong tin day du"
     },
-    avatar:{
-        type:String,
+    avatar: {
+        type: String,
         default: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsY5yMO2TvuWRKwNjTNsnYrogObuRcJ1L8oHmF-g5WGQ&s"
     }
 }, {
