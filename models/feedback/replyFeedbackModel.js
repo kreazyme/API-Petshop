@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 
-const feedbackSchema = new mongoose.Schema({
+const replyFeedbackSchema = new mongoose.Schema({
     images: {
         type: Object,
         required: true,
@@ -20,4 +20,4 @@ const feedbackSchema = new mongoose.Schema({
 })
 
 
-module.exports = mongoose.model("Feedbacks", feedbackSchema)
+module.exports = mongoose.model("ReplyFeedbacks", replyFeedbackSchema)

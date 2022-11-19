@@ -25,7 +25,7 @@ const feedbackSchema = new mongoose.Schema({
         type: String,
         ref: 'User'
     },
-    replyFeedback : {
+    replyFeedbacks : {
         type: Array,
       require: true,
       default:[]

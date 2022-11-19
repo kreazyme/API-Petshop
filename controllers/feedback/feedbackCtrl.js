@@ -6,16 +6,17 @@ const feedbackCtrl = {
         try {
             const { images, rating, content, productId,userId,replyFeedbacks } = req.body
             var listReplyFeedback = [];
-        if(replyFeedbacks){
+        //if(replyFeedbacks){
           for (var i = 0; i < replyFeedbacks.length; i++) {
             const replyFeedbackItem = new ReplyFeedbacks({
-              images: replyFeedbackItem[i].images,
-              content: replyFeedbackItem[i].content,
-              user_id: replyFeedbackItem[i].user_id
+              content: replyFeedbacks[i].content,
+              images: replyFeedbacks[i].images,
+              user_id: replyFeedbacks[i].userId
             });
             listReplyFeedback.push(replyFeedbackItem);
           }
-        }
+        //}
+        console.log(listReplyFeedback);
             const feedback = new Feedbacks({
 
                 content: content,
@@ -35,7 +36,8 @@ const feedbackCtrl = {
     getFeedbackByProductID: async (productId) => {
         try {
             const feedbacks = await Feedbacks.find({ product_id: productId })
-           return feedbacks;}
+           return feedbacks;
+        }
         catch (error) {
            return 0;
         }
