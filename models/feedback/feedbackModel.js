@@ -2,9 +2,7 @@ const mongoose = require('mongoose')
 
 
 const feedbackSchema = new mongoose.Schema({
-    feedbackId: {
-        type: String
-    },
+    
     images: {
         type: Object,
         required: true,
@@ -26,6 +24,11 @@ const feedbackSchema = new mongoose.Schema({
         // type: mongoose.Schema.Types.ObjectId,
         type: String,
         ref: 'User'
+    },
+    replyFeedbacks : {
+        type: Array,
+      require: true,
+      default:[]
     }
 }, {
     timestamps: true

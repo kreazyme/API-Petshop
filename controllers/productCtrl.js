@@ -1,5 +1,7 @@
 const Products = require('../models/productModel')
 const Type = require('../models/typeModel')
+const DetailProduct=require('../models/detailProductModel')
+const feedbackCtrl = require('./feedback/feedbackCtrl');
 // Filter, sorting and paginating
 
 
@@ -66,34 +68,38 @@ const productCtrl = {
     },
     createProduct: async (req, res) => {
         try {
+            console.log("Line 71");
           const { types, title, description, images, category } = req.body;
+          console.log("Line 73");
           var listType = [];
-    
-          product_id = `PET5000`;
+          console.log("Line 74");
           for (var i = 0; i < types.length; i++) {
+            console.log("Line 77");
             const typeItem = new Type({
               name: types[i].name,
               price: types[i].price,
               amount: types[i].amount,
             });
+            console.log("Line 83");
             listType.push(typeItem);
+            console.log("Line 85");
           }
           if (!images)
             return res.status(400).json({ msg: "Không có hình ảnh tải lên" });
-    
-          const product = await Products.findOne({ product_id });
+            console.log("Line 89");
+          const product = await Products.findOne({ title : title });
+          console.log(title);
           if (product)
             return res.status(400).json({ msg: "Sản phẩm này đã tồn tại." });
-    
+            console.log("Line 94");
           const newProduct = new Products({
-            product_id: product_id,
             types: listType,
             title: title.toLowerCase(),
             description: description,
             images: images,
             category: category,
           });
-    
+          console.log(newProduct);
             await newProduct.save();
           res.json({ msg: "Product create!", newProduct });
         } catch (err) {
@@ -128,6 +134,33 @@ const productCtrl = {
             const { searchToken } = req.body
             const products = await Products.find({ title: { "$regex": searchToken, "$options": "i" } });
             res.send(JSON.stringify(products));
+        }
+        catch (error) {
+            res.send(JSON.stringify(error))
+        }
+    },
+    getDetailProduct:async (req, res) => {
+        try {
+            const productId  = req.params.id
+            // console.log(req.params.id);
+            // console.log( productId);
+            const product = await Products.findOne({ _id: productId })
+            //console.log(product)
+            const feedback = await feedbackCtrl.getFeedbackByProductID(productId);
+            // console.log(feedback);
+            // console.log(product.title)
+            const newDetailProduct = new DetailProduct({
+                types: product.types,
+                title: product.title.toLowerCase(),
+                description: product.description,
+                images: product.images,
+                category: product.category,
+                feedbacks: feedback
+    
+              });
+              //console.log(productId)
+              //console.log(newDetailProduct);
+            res.send(JSON.stringify(newDetailProduct))
         }
         catch (error) {
             res.send(JSON.stringify(error))

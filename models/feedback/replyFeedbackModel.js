@@ -1,27 +1,23 @@
 const mongoose = require('mongoose')
 
 
-const feedbackSchema = new mongoose.Schema({
-    ReplyFeedbackId: {
-        type: String
+const replyFeedbackSchema = new mongoose.Schema({
+    images: {
+        type: Object,
+        required: true,
     },
-    feedbackId: {
+    content: {
         type: String,
         required: true
-    },
-    product_id: {
-        // type: mongoose.Schema.Types.ObjectId,
-        type: String,
-        ref: 'Type'
     },
     user_id: {
         // type: mongoose.Schema.Types.ObjectId,
         type: String,
         ref: 'User'
-    }
+    },
 }, {
     timestamps: true
 })
 
 
-module.exports = mongoose.model("Feedbacks", feedbackSchema)
+module.exports = mongoose.model("ReplyFeedbacks", replyFeedbackSchema)
