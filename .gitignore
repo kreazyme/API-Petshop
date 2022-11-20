@@ -3,3 +3,6 @@ node_modules
 yarn.lock
 *.lock
 /*.lock
+*.env
+/*.env
+.env
