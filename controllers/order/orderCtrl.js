@@ -18,7 +18,7 @@ const orderCtrl = {
                 address: address,
                 phone: phone,
             });
-            order.save();
+            await order.save();
             let price = 0;
             for (let item = 0; item < orderItems.length; item++) {
                 const productItem = await Products.findOne({ _id: orderItems[item].product_id });
@@ -42,12 +42,15 @@ const orderCtrl = {
                             }
                         }
                     });
-                    Products.findByIdAndUpdate(productItem._id, { types: type });
-                    orderItem.save();
+                    await Products.findByIdAndUpdate(productItem._id, { types: type });
+                    await orderItem.save();
+                }
+                else {
+                    throw new Error("Product not found");
                 }
             }
             order.total = price;
-            order.save();
+            await order.save();
             res.send({ message: "Order created successfully", order: order });
         }
         catch (err) {
@@ -109,7 +112,7 @@ const orderCtrl = {
                         return;
                     }
                     price += itemPrice * orderItems[item].amount;
-                    orderItem.save();
+                    await orderItem.save();
                 }
             }
 
