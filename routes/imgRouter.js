@@ -13,7 +13,7 @@ cloudinary.config({
 })
 
 // only admin 
-router.post('/upload',auth , authAdmin, (req, res) =>{
+router.post('/upload', (req, res) =>{
     try {
         if(!req.files || Object.keys(req.files).length === 0)
             return res.status(400).json({msg: 'Không co tập tin nao được tải lên.'})
