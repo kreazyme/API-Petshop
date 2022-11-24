@@ -11,6 +11,11 @@ const orderSchema = new mongoose.Schema({
         required: true,
         default: 0.0
     },
+    listOrderItems: {
+        type: Array,
+        required: true,
+        default: []
+    },
     status: {
         type: String,
         ref: 'Status',
