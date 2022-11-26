@@ -7,8 +7,7 @@
     "start": "node server.js",
     "server": "node server.js",
     "dev": "nodemon server.js",
-    "build": "npm install",
-    "install": "node server.js"
+    "build": "npm install"
   },
   "keywords": [],
   "author": "",
