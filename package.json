@@ -5,12 +5,11 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "server": "nodemon server.js",
-    "client": " npm run start",
+    "server": "node server.js",
+    "dev": "node server.js",
+    "build": "node server.js",
+    "install": "npm install",
     "server-install": "npm install",
-    "client-install": " npm install",
-    "install-all": "concurrently \"npm run server-install\" \"npm run client-install\"",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": " npm install && npm run build"
   },
   "keywords": [],
