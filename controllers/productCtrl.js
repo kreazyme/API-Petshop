@@ -78,6 +78,7 @@ const productCtrl = {
                 });
                 listType.push(typeItem);
             }
+            const price = types[0].price;
             if (!images)
                 return res.status(400).json({ msg: "Không có hình ảnh tải lên" });
             const product = await Products.findOne({ title: title });
@@ -90,8 +91,8 @@ const productCtrl = {
                 description: description,
                 images: images,
                 category: category,
+                price: price,
             });
-            console.log(newProduct);
             await newProduct.save();
             res.json({ msg: "Product create!", newProduct });
         } catch (err) {
