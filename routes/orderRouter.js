@@ -6,10 +6,13 @@ const authAdmin = require('../middleware/authAdmin')
 const authMe = require('../middleware/authMe')
 
 router.route('/orders')
-    .get(orderCtrl.getOrders)
+    .get(orderCtrl.getOrdersbyID)
     .post(orderCtrl.createOrder)
 
 router.route('/orders/:id')
     .put(orderCtrl.updateOrder)
+
+router.route('/orders/checkout')
+    .get(orderCtrl.checkoutOrder)
 
 module.exports = router

@@ -6,6 +6,7 @@ const Type = require('../../models/typeModel');
 const authMe = require('../../middleware/authMe');
 const productCtrl = require('../productCtrl');
 const jwt = require('jsonwebtoken');
+const paypalCtrl = require('../order/paypalCtrl');
 
 const orderCtrl = {
     createOrder: async (req, res) => {
@@ -20,6 +21,7 @@ const orderCtrl = {
             });
             await order.save();
             let price = 0;
+            let listOrderItems = [];
             for (let item = 0; item < orderItems.length; item++) {
                 const productItem = await Products.findOne({ _id: orderItems[item].product_id });
                 if (productItem) {
@@ -33,6 +35,11 @@ const orderCtrl = {
                     type.forEach((i) => {
                         if (i._id == orderItems[item].type_id) {
                             amount = i.amount - orderItems[item].amount;
+                            listOrderItems.push({
+                                product_id: orderItems[item].product_id,
+                                type_id: orderItems[item].type_id,
+                                amount: orderItems[item].amount,
+                            })
                             if (amount < 0) {
                                 throw new RangeError("Not enought amount");
                             }
@@ -43,12 +50,12 @@ const orderCtrl = {
                         }
                     });
                     await Products.findByIdAndUpdate(productItem._id, { types: type });
-                    await orderItem.save();
                 }
                 else {
                     throw new Error("Product not found");
                 }
             }
+            order.listOrderItems = listOrderItems;
             order.total = price;
             await order.save();
             res.send({ message: "Order created successfully", order: order });
@@ -64,11 +71,10 @@ const orderCtrl = {
     },
     getOrdersbyID: async (req, res) => {
         try {
-            console.log(req.user?.id);
-            const id = await authMe();
-            console.log(id);
-            const orders = await Orders.findById(id);
-            res.send({ order: JSON.stringify(orders) });
+            const id = await authMe(req);
+            console.log("paid succes, id: ${id}");
+            const orders = await Orders.find({ user_id: id });
+            res.send(JSON.stringify(orders));
         } catch (err) {
             return res.status(500).json({ msg: err.message })
         }
@@ -76,7 +82,6 @@ const orderCtrl = {
     getOrders: async (req, res) => {
         try {
             const user_id = await authMe(req);
-            console.log(user_id);
             const orders = await Orders.find({ user_id: user_id });
             res.send(orders)
         } catch (err) {
@@ -124,7 +129,41 @@ const orderCtrl = {
         catch (err) {
             return res.status(500).json({ msg: err.message });
         }
-    }
+    },
+    checkoutOrder: async (req, res) => {
+        const { order_id } = req.body;
+        const order = await Orders.findOne({ _id: order_id });
+        if (!order) {
+            return res.status(400).send({ message: "Order not found" });
+        }
+        else {
+            const amount = order.total;
+            const address = order.address;
+            await paypalCtrl.payment(res, amount, address, order_id);
+        }
+    },
+    checkoutOrderSuccess: async (req, res) => {
+        const order_id = req.params.id;
+        await Orders.findOneAndUpdate({ _id: order_id }, {
+            status: "Success"
+        }, (err, doc) => {
+            if (err) {
+                res.send({ message: "Something went wrong" })
+            }
+            else {
+                res.send({ message: "Order update successfully" });
+            }
+        })
+    },
+    checkoutOrderFail: async (req, res) => {
+        const { order_id } = req.body;
+        await Orders
+            .findOneAndUpdate({ _id: order_id }, {
+                status: "Fail"
+            })
+        res.send({ message: "Order update not successfully" });
+    },
+
 }
 
 module.exports = orderCtrl

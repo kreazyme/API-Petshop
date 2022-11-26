@@ -5,6 +5,14 @@ const cors = require('cors')
 const fileUpload = require('express-fileupload')
 const cookieParser = require('cookie-parser')
 const path = require('path')
+const paypal = require('paypal-rest-sdk')
+
+//Paypal Config
+paypal.configure({
+    'mode': 'sandbox', //sandbox or live
+    'client_id': process.env.PAYPAL_CLIENT_ID,
+    'client_secret': process.env.PAYPAL_CLIENT_SECRET
+})
 
 
 const app = express()
@@ -27,6 +35,7 @@ app.use('/api', require('./routes/address/townRouter'))
 app.use('/api', require('./routes/address/district'))
 app.use('/api', require('./routes/address/province'))
 app.use('/api', require('./routes/orderRouter'))
+app.use("/api", require("./routes/paypalRouter"))
 
 
 

@@ -27,6 +27,7 @@
     "express-fileupload": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.1",
+    "paypal-rest-sdk": "^1.8.1",
     "react-icons": "^4.6.0"
   },
   "devDependencies": {
