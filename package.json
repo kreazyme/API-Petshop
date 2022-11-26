@@ -1,15 +1,14 @@
 {
-  "name": "ecommerce",
+  "name": "petshop",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "server": "node server.js",
-    "dev": "node server.js",
-    "build": "node server.js",
+    "dev": "nodemon server.js",
+    "build": "webpack --mode production",
     "install": "npm install",
-    "server-install": "npm install",
     "heroku-postbuild": " npm install && npm run build"
   },
   "keywords": [],
