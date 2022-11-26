@@ -2,10 +2,9 @@ const mongoose = require('mongoose')
 
 
 const feedbackSchema = new mongoose.Schema({
-    
-    images: {
-        type: Object,
-        required: true,
+
+    image_url: {
+        type: String,
     },
     rating: {
         type: Number,
@@ -16,19 +15,14 @@ const feedbackSchema = new mongoose.Schema({
         required: true
     },
     product_id: {
-        // type: mongoose.Schema.Types.ObjectId,
-        type: String,
-        ref: 'Type'
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Type',
+        required: true
     },
     user_id: {
-        // type: mongoose.Schema.Types.ObjectId,
-        type: String,
-        ref: 'User'
-    },
-    replyFeedbacks : {
-        type: Array,
-      require: true,
-      default:[]
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 }, {
     timestamps: true

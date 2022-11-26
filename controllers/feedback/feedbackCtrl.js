@@ -1,47 +1,46 @@
 const Feedbacks = require('../../models/feedback/feedbackModel')
 const ReplyFeedbacks = require('../../models/feedback/replyFeedbackModel')
+const Products = require('../../models/productModel')
+const authMe = require('../../middleware/authMe')
 
 const feedbackCtrl = {
     createFeedback: async (req, res) => {
         try {
-            const { images, rating, content, productId,userId,replyFeedbacks } = req.body
-            var listReplyFeedback = [];
-        //if(replyFeedbacks){
-          for (var i = 0; i < replyFeedbacks.length; i++) {
-            const replyFeedbackItem = new ReplyFeedbacks({
-              content: replyFeedbacks[i].content,
-              images: replyFeedbacks[i].images,
-              user_id: replyFeedbacks[i].userId
-            });
-            listReplyFeedback.push(replyFeedbackItem);
-          }
-        //}
-        console.log(listReplyFeedback);
+            const { image_url, rating, content, product_id } = req.body
+            const userID = await authMe(req);
+            if (!userID) {
+                res.status(401).json({ message: "Please login to continue" })
+                return;
+            }
+            const product = await Products.findOne({ _id: product_id })
+            if (!product) {
+                res.status(400).json({ message: "Product not found" })
+                return;
+            }
             const feedback = new Feedbacks({
-
                 content: content,
                 rating: rating,
-                images: images,
-                product_id: productId,
-                user_id: userId,
-                replyFeedbacks: listReplyFeedback
+                image_url: image_url,
+                product_id: product_id,
+                user_id: userID,
             })
             await feedback.save()
             res.send(JSON.stringify(feedback))
         }
         catch (error) {
             console.log(error)
+            res.status(500).json({ message: "Internal Server" })
         }
     },
     getFeedbackByProductID: async (productId) => {
         try {
             const feedbacks = await Feedbacks.find({ product_id: productId })
-           return feedbacks;
+            return feedbacks;
         }
         catch (error) {
-           return 0;
+            return 0;
         }
     }
-    
+
 }
 module.exports = feedbackCtrl
