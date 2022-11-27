@@ -143,8 +143,8 @@ const productCtrl = {
                 description: product.description,
                 images: product.images,
                 category: product.category,
-                feedbacks: feedback
-
+                feedbacks: feedback,
+                price: product.price,
             });
             res.send(JSON.stringify(newDetailProduct))
         }

@@ -11,7 +11,7 @@ const detailProductSchema = new mongoose.Schema(
     types: {
       type: Array,
       require: true,
-      default:[]
+      default: []
     },
     description: {
       type: String,
@@ -35,8 +35,11 @@ const detailProductSchema = new mongoose.Schema(
     },
     feedbacks: {
       type: Array,
-      default:[]
+      default: []
     },
+    price: {
+      type: Number,
+    }
   },
   {
     timestamps: true, //important
