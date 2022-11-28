@@ -11,6 +11,7 @@ router.route('/orders')
 
 router.route('/orders/:id')
     .put(orderCtrl.updateOrder)
+    .post(orderCtrl.addTypeToOrder)
 
 router.route('/orders/checkout')
     .get(orderCtrl.checkoutOrder)
