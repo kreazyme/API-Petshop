@@ -29,6 +29,10 @@ const orderCtrl = {
                     type.forEach((i) => {
                         if (i._id == orderItems[item].type_id) {
                             amount = i.amount - orderItems[item].amount;
+                            if (orderItems[item].amount < 0) {
+                                res.status(400).json({ msg: "Amount is invalid" });
+                                return;
+                            }
                             listOrderItems.push({
                                 product_id: orderItems[item].product_id,
                                 type_id: orderItems[item].type_id,
@@ -64,10 +68,56 @@ const orderCtrl = {
                 return res.status(500).json({ message: err.message });
         }
     },
+    addTypeToOrder: async (req, res) => {
+        try {
+            const { product_id, type_id, amount } = req.body;
+            const order = await Orders.findOne({ _id: req.params.id });
+            if (order) {
+                if (order.status == 'Pending') {
+                    const product = await Products.findOne({ _id: product_id });
+                    if (product) {
+                        if (product.amount < amount) {
+                            res.status(400).send({ message: "Product not enough" });
+                            return;
+                        }
+                        else if (amount <= 0) {
+                            res.status(400).send({ message: "Amount must be greater than 0" });
+                            return;
+                        }
+                        else {
+                            var itemType = {
+                                product_id: product_id,
+                                type_id: type_id,
+                                amount: amount,
+                                image: product.images.url
+                            }
+                            listType = { ...order.listOrderItems, itemType };
+                            order.listOrderItems = listType;
+                            await order.save();
+                            res.send(JSON.stringify(order));
+                        }
+                    }
+                    else {
+                        res.status(400).send({ message: "Product not found" });
+                        return;
+                    }
+                }
+                else {
+                    res.status(400).send({ message: "Order is not pending" });
+                    return;
+                }
+            }
+            else {
+                res.status(400).send({ message: "Order not found" });
+                return;
+            }
+        } catch (err) {
+            console.log("Error: ", err.message)
+        }
+    },
     getOrdersbyID: async (req, res) => {
         try {
             const id = await authMe(req);
-            console.log("paid succes, id: ${id}");
             const orders = await Orders.find({ user_id: id });
             res.send(JSON.stringify(orders));
         } catch (err) {
