@@ -25,12 +25,6 @@ const orderCtrl = {
             for (let item = 0; item < orderItems.length; item++) {
                 const productItem = await Products.findOne({ _id: orderItems[item].product_id });
                 if (productItem) {
-                    const orderItem = new OrderItems({
-                        order_id: order._id,
-                        product_id: orderItems[item].product_id,
-                        amount: orderItems[item].amount,
-                        type_id: orderItems[item].type_id,
-                    });
                     const type = productItem.types;
                     type.forEach((i) => {
                         if (i._id == orderItems[item].type_id) {
@@ -39,6 +33,7 @@ const orderCtrl = {
                                 product_id: orderItems[item].product_id,
                                 type_id: orderItems[item].type_id,
                                 amount: orderItems[item].amount,
+                                image: productItem.images.url
                             })
                             if (amount < 0) {
                                 throw new RangeError("Not enought amount");
