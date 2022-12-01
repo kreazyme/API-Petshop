@@ -71,48 +71,61 @@ const orderCtrl = {
     addTypeToOrder: async (req, res) => {
         try {
             const { product_id, type_id, amount } = req.body;
-            const order = await Orders.findOne({ _id: req.params.id });
-            if (order) {
-                if (order.status == 'Pending') {
-                    const product = await Products.findOne({ _id: product_id });
-                    if (product) {
-                        if (product.amount < amount) {
-                            res.status(400).send({ message: "Product not enough" });
-                            return;
-                        }
-                        else if (amount <= 0) {
-                            res.status(400).send({ message: "Amount must be greater than 0" });
-                            return;
-                        }
-                        else {
-                            var itemType = {
-                                product_id: product_id,
-                                type_id: type_id,
-                                amount: amount,
-                                image: product.images.url
-                            }
-                            listType = { ...order.listOrderItems, itemType };
-                            order.listOrderItems = listType;
-                            await order.save();
-                            res.send(JSON.stringify(order));
-                        }
+            const userID = await authMe(req);
+            const order = await Orders.findOne({ user_id: userID, status: 'Pending' });
+            if (!order) {
+                order = Orders({
+                    user_id: userID,
+                    status: 'Pending',
+                    address: address,
+                    phone: phone,
+                });
+            }
+            if (order.status == 'Pending') {
+                const product = await Products.findOne({ _id: product_id });
+                if (product) {
+                    if (product.amount < amount) {
+                        res.status(400).send({ message: "Product not enough" });
+                        return;
+                    }
+                    else if (amount <= 0) {
+                        res.status(400).send({ message: "Amount must be greater than 0" });
+                        return;
                     }
                     else {
-                        res.status(400).send({ message: "Product not found" });
-                        return;
+                        var itemType = {
+                            product_id: product_id,
+                            type_id: type_id,
+                            amount: amount,
+                            image: product.images.url
+                        }
+                        listType = { ...order.listOrderItems, itemType };
+                        order.listOrderItems = listType;
+                        await order.save();
+                        res.send(JSON.stringify(order));
                     }
                 }
                 else {
-                    res.status(400).send({ message: "Order is not pending" });
+                    res.status(400).send({ message: "Product not found" });
                     return;
                 }
             }
             else {
-                res.status(400).send({ message: "Order not found" });
+                res.status(400).send({ message: "Order is not pending" });
                 return;
             }
         } catch (err) {
             console.log("Error: ", err.message)
+        }
+    },
+    getCart: async (req, res) => {
+        try {
+            const userID = await authMe(req);
+            const order = await Orders.findOne({ user_id: userID, status: 'Pending' });
+            res.send(JSON.stringify(order));
+        }
+        catch (err) {
+            res.status(400).json({ message: "Internal Server Error" })
         }
     },
     getOrdersbyID: async (req, res) => {
