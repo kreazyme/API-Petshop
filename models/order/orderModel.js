@@ -28,7 +28,8 @@ const orderSchema = new mongoose.Schema({
     },
     phone: {
         type: String,
-        required: true
+        required: true,
+        default: "0123456789"
     },
 }, {
     timestamps: true
