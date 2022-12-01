@@ -6,6 +6,7 @@ const Type = require('../../models/typeModel');
 const authMe = require('../../middleware/authMe');
 const productCtrl = require('../productCtrl');
 const jwt = require('jsonwebtoken');
+const User = require('../../models/userModel');
 const paypalCtrl = require('../order/paypalCtrl');
 
 const orderCtrl = {
@@ -72,13 +73,14 @@ const orderCtrl = {
         try {
             const { product_id, type_id, amount } = req.body;
             const userID = await authMe(req);
-            const order = await Orders.findOne({ user_id: userID, status: 'Pending' });
+            const user = User.findById(userID);
+            var order = await Orders.findOne({ user_id: userID, status: 'Pending' });
             if (!order) {
                 order = Orders({
                     user_id: userID,
                     status: 'Pending',
-                    address: address,
-                    phone: phone,
+                    address: user.address ?? "Address",
+                    phone: user.phone ?? "0123456789"
                 });
             }
             if (order.status == 'Pending') {
@@ -106,7 +108,6 @@ const orderCtrl = {
                     }
                 }
                 else {
-                    res.status(400).send({ message: "Product not found" });
                     return;
                 }
             }
@@ -115,6 +116,7 @@ const orderCtrl = {
                 return;
             }
         } catch (err) {
+            console.log(err)
             console.log("Error: ", err.message)
         }
     },
