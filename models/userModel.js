@@ -23,12 +23,16 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "Hay dien thong tin day du"
     },
+    phone: {
+        type: String,
+        default: "0123456789"
+    },
     avatar: {
         type: String,
         default: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsY5yMO2TvuWRKwNjTNsnYrogObuRcJ1L8oHmF-g5WGQ&s"
     },
     cart: {
-        type:Array,
+        type: Array,
     }
 }, {
     timestamps: true
