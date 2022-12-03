@@ -8,12 +8,13 @@ const userCtrl = require('../userCtrl');
 const feedbackCtrl = {
     createFeedback: async (req, res) => {
         try {
-            const { image_url, rating, content, product_id } = req.body
+            const { image_url, rating, content, product_id } = req.body;
             const userID = await authMe(req);
             if (!userID) {
                 res.status(401).json({ message: "Please login to continue" })
                 return;
             }
+            console.log(rating);
             const product = await Products.findOne({ _id: product_id })
             if (!product) {
                 res.status(400).json({ message: "Product not found" })
