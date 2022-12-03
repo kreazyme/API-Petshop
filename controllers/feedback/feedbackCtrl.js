@@ -2,6 +2,8 @@ const Feedbacks = require('../../models/feedback/feedbackModel')
 const ReplyFeedbacks = require('../../models/feedback/replyFeedbackModel')
 const Products = require('../../models/productModel')
 const authMe = require('../../middleware/authMe')
+//const Users = require('../models/userModel');
+const userCtrl = require('../userCtrl');
 
 const feedbackCtrl = {
     createFeedback: async (req, res) => {
@@ -25,20 +27,34 @@ const feedbackCtrl = {
                 user_id: userID,
             })
             await feedback.save()
-            res.send(JSON.stringify(feedback))
+            
+        const user = userCtrl.getUserById(userID);
+        res.json({
+            status: 'success',
+            feedback: feedback,
+            user: user
+        })
         }
         catch (error) {
             console.log(error)
             res.status(500).json({ message: "Internal Server" })
         }
     },
-    getFeedbackByProductID: async (productId) => {
+    getFeedbackByProductID: async (req, res) => {
         try {
+            console.log(" thanh cong");
+            const productId=req.params.id;
             const feedbacks = await Feedbacks.find({ product_id: productId })
-            return feedbacks;
-        }
-        catch (error) {
-            return 0;
+            console.log(" thanh cong");
+            res.json({
+                // status: 'success',
+                // result: products.length,
+                // products: products
+                feedbacks
+            })
+
+        } catch (err) {
+            return res.status(500).json({ msg: err.message })
         }
     }
 
