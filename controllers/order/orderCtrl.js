@@ -86,6 +86,14 @@ const orderCtrl = {
             if (order.status == 'Pending') {
                 const product = await Products.findOne({ _id: product_id });
                 if (product) {
+                    for (var i = 0; i < order.listOrderItems.length; i++) {
+                        if (order.listOrderItems[i].product_id == product_id && order.listOrderItems[i].type_id == type_id) {
+                            order.listOrderItems[i].amount += amount;
+                            order.save();
+                            res.send(JSON.stringify(order));
+                            return;
+                        }
+                    }
                     if (product.amount < amount) {
                         res.status(400).send({ message: "Product not enough" });
                         return;
@@ -101,7 +109,8 @@ const orderCtrl = {
                             amount: amount,
                             image: product.images.url
                         }
-                        listType = { ...order.listOrderItems, itemType };
+                        listType = order.listOrderItems;
+                        listType.push(itemType);
                         order.listOrderItems = listType;
                         await order.save();
                         res.send(JSON.stringify(order));
