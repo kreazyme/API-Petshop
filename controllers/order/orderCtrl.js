@@ -84,37 +84,91 @@ const orderCtrl = {
                 });
             }
             if (order.status == 'Pending') {
-                const product = await Products.findOne({ _id: product_id });
+                var product;
+                try {
+                    product = await Products.findById(product_id);
+                }
+                catch (err) {
+                    res.send({ message: "Product not found" });
+                }
                 if (product) {
-                    for (var i = 0; i < order.listOrderItems.length; i++) {
-                        if (order.listOrderItems[i].product_id == product_id && order.listOrderItems[i].type_id == type_id) {
-                            order.listOrderItems[i].amount += amount;
-                            order.save();
-                            res.send(JSON.stringify(order));
+                    for (var i = 0; i < product.types.length; i++) {
+                        if (type_id == product.types[i]._id) {
+
+                            if (amount > product.types[i].amount) {
+                                res.status(400).json({ message: "Not enough amount" });
+                                return;
+                            }
+                            else if (amount <= 0) {
+                                res.status(400).send({ message: "Amount must be greater than 0" });
+                                return;
+                            }
+                            else {
+                                for (var j = 0; j < order.listOrderItems.length; j++) {
+                                    if (order.listOrderItems[j].type_id == type_id && order.listOrderItems[j].product_id == product_id) {
+
+                                        //amount
+                                        if (order.listOrderItems[j].amount + amount > product.types[i].amount) {
+                                            res.status(400).send({ message: "Not enough amount" });
+                                            return;
+                                        }
+                                        order.listOrderItems[j].amount += amount;
+                                        product.types[i].amount = product.types[i].amount - amount;
+                                        await Products.findByIdAndUpdate(product_id, { types: product.types });
+
+                                        //price
+                                        let price = 0;
+                                        order.listOrderItems.forEach((item) => {
+                                            price += item.amount * item.price;
+                                        });
+                                        order.total = price;
+
+                                        //save
+                                        await Orders.findByIdAndUpdate(order._id, { listOrderItems: order.listOrderItems, total: order.total });
+                                        res.send(JSON.stringify(order));
+                                        return;
+                                    }
+                                }
+
+
+                                //types
+                                var itemType = {
+                                    product_id: product_id,
+                                    type_id: type_id,
+                                    amount: amount,
+                                    image: product.images.url,
+                                    product_name: product.title,
+                                    price: product.types[i].price,
+                                    type_name: product.types[i].name
+                                }
+                                listType = order.listOrderItems;
+                                listType.push(itemType);
+                                order.listOrderItems = listType;
+
+                                //amount
+                                if (product.types[i].amount < amount) {
+                                    res.status(400).send({ message: "Not enough amount" });
+                                    return;
+                                }
+                                product.types[i].amount = product.types[i].amount - amount;
+
+                                //price
+                                let price = 0;
+                                order.listOrderItems.forEach((item) => {
+                                    price += item.amount * item.price;
+                                });
+                                order.total = price;
+
+                                //save
+                                await Products.findByIdAndUpdate(product_id, { types: product.types });
+                                await Orders.findByIdAndUpdate(order._id, { listOrderItems: order.listOrderItems, total: order.total });
+
+                                res.send(JSON.stringify(order));
+                            }
                             return;
                         }
                     }
-                    if (product.amount < amount) {
-                        res.status(400).send({ message: "Product not enough" });
-                        return;
-                    }
-                    else if (amount <= 0) {
-                        res.status(400).send({ message: "Amount must be greater than 0" });
-                        return;
-                    }
-                    else {
-                        var itemType = {
-                            product_id: product_id,
-                            type_id: type_id,
-                            amount: amount,
-                            image: product.images.url
-                        }
-                        listType = order.listOrderItems;
-                        listType.push(itemType);
-                        order.listOrderItems = listType;
-                        await order.save();
-                        res.send(JSON.stringify(order));
-                    }
+                    res.send({ message: "Wrong type id" });
                 }
                 else {
                     return;
