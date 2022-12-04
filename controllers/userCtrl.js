@@ -105,15 +105,6 @@ const userCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
-  getUserById: async (id) => {
-    try {
-      const user = await Users.findById({ _id: id });
-      return user;
-    }
-    catch (err) {
-      return 0;
-    }
-  },
 
   addCart: async (req, res) => {
     try {
