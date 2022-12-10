@@ -16,7 +16,7 @@ router.route('/cart')
     .get(orderCtrl.getCart)
     .put(orderCtrl.addTypeToOrder)
 
-router.route('/orders/checkout')
-    .get(orderCtrl.checkoutOrder)
+router.route('/cart/checkout')
+    .post(orderCtrl.checkoutOrder)
 
 module.exports = router
