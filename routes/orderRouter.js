@@ -16,6 +16,9 @@ router.route('/cart')
     .get(orderCtrl.getCart)
     .put(orderCtrl.addTypeToOrder)
 
+router.route('/history')
+    .get(orderCtrl.getOrdersByTime)
+
 router.route('/cart/checkout')
     .post(orderCtrl.checkoutOrder)
 
