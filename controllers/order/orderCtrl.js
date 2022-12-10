@@ -315,6 +315,24 @@ const orderCtrl = {
             return res.status(500).json({ msg: err.message });
         }
     },
+    getMyOrder: async (req, res) => {
+        try {
+            const userID = await authMe(req);
+            const orders = await Orders.find({
+                user_id: userID,
+                status: "Paid"
+            }, {
+                createdAt: 1,
+                total: 1,
+                status: 1,
+                listOrderItems: 1
+            });
+            res.send(orders);
+        } catch (err) {
+            console.log(err);
+            return res.status(500).json({ error: "Internal Server" });
+        }
+    },
 
 }
 
