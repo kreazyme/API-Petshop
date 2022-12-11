@@ -31,6 +31,9 @@ const orderSchema = new mongoose.Schema({
         required: true,
         default: "0123456789"
     },
+    delivery: {
+        type: String,
+    }
 }, {
     timestamps: true
 });

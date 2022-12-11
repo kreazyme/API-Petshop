@@ -23,4 +23,8 @@ router.route('/history')
 router.route('/cart/checkout')
     .post(orderCtrl.checkoutOrder)
 
+router.route('/delivery')
+    .get(orderCtrl.getDelivery)
+    .put(orderCtrl.updateDelivery)
+
 module.exports = router
