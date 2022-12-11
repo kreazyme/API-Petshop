@@ -8,6 +8,8 @@ const productCtrl = require('../productCtrl');
 const jwt = require('jsonwebtoken');
 const User = require('../../models/userModel');
 const paypalCtrl = require('../order/paypalCtrl');
+const axios = require('axios');
+const dotenv = require('dotenv');
 
 const orderCtrl = {
     createOrder: async (req, res) => {
@@ -333,6 +335,48 @@ const orderCtrl = {
             return res.status(500).json({ error: "Internal Server" });
         }
     },
+    getDelivery: async (req, res) => {
+        const GHNToken = process.env.GHNToken ?? "GHNToken";
+        const { delivery_id } = req.body;
+        if (!delivery_id) {
+            res.status(400).json({ message: "delivery_id is required" })
+            return;
+        }
+        axios.post('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/detail',
+            {
+                order_code: `${delivery_id}`
+            },
+            {
+                headers: {
+                    'Token': `${GHNToken}`
+                }
+            },
+        ).catch(err => {
+            if (err.response.data.code === 400 || err.response.data.code === 401) {
+                res.status(err.response.data.code).json({ message: err.response.data.message })
+            }
+            else {
+                res.status(500).json({ message: "Internal Server" })
+            }
+        }).then(data => {
+            res.send(JSON.stringify(data.data))
+        });
+    },
+    updateDelivery: async (req, res) => {
+        const { delivery_id, order_id } = req.body;
+        if (!delivery_id || !order_id) {
+            res.status(400).json({ message: "delivery_id and order_id are required" })
+            return;
+        }
+        try {
+            await Orders.findOneAndUpdate({ _id: order_id }, { delivery: delivery_id });
+        }
+        catch (err) {
+            console.log(err)
+            res.send({ message: err.message });
+        }
+    }
+
 
 }
 
