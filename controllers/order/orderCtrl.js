@@ -214,6 +214,15 @@ const orderCtrl = {
             return res.status(500).json({ msg: err.message })
         }
     },
+    getAllOrders: async (req, res) => {
+        try {
+            const orders = await Orders.find({ "listOrderItems.0": { $exists: true } }, { listOrderItems: 1, _id: 1, user_id: 1, status: 1, total: 1, createdAt: 1 });
+            res.send(orders)
+        } catch (err) {
+            console.log(err);
+            return res.status(500).json({ message: err.message })
+        }
+    },
     updateOrder: async (req, res) => {
         try {
             const { user_id, orderItems, address, phone } = req.body;
