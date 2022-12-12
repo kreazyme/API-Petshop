@@ -9,6 +9,9 @@ router.route('/orders')
     .get(orderCtrl.getOrdersbyID)
     .post(orderCtrl.createOrder)
 
+router.route('/orders/admin')
+    .get(orderCtrl.getAllOrders)
+
 router.route('/orders/:id')
     .put(orderCtrl.updateOrder)
 
