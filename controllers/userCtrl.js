@@ -2,6 +2,7 @@ const Users = require('../models/userModel');
 const Payments = require('../models/paymentModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const authMe = require('../middleware/authMe');
 
 const userCtrl = {
   register: async (req, res) => {
