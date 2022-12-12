@@ -346,7 +346,7 @@ const orderCtrl = {
     },
     getDelivery: async (req, res) => {
         const GHNToken = process.env.GHNToken ?? "GHNToken";
-        const { delivery_id } = req.body;
+        const delivery_id = req.query.delivery_id;
         if (!delivery_id) {
             res.status(400).json({ message: "delivery_id is required" })
             return;
@@ -368,7 +368,10 @@ const orderCtrl = {
                 res.status(500).json({ message: "Internal Server" })
             }
         }).then(data => {
-            res.send(JSON.stringify(data.data))
+            try {
+                res.send(JSON.stringify(data.data))
+            }
+            catch (err) { }
         });
     },
     updateDelivery: async (req, res) => {
