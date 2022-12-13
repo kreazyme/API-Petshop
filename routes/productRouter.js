@@ -5,7 +5,7 @@ const authAdmin = require('../middleware/authAdmin')
 
 
 router.route('/products')
-    .get(productCtrl.getProductsByCategory)
+    .get(productCtrl.getProducts)
     .post( productCtrl.createProduct)
 
 router.route('/products/search')
@@ -17,6 +17,8 @@ router.route('/products/:id')
     .put(auth, authAdmin, productCtrl.updateProduct)
     .get(productCtrl.getDetailProduct)
 
+router.route('/products/category')
+    .get(productCtrl.getProductsByCategory)
 
 
 module.exports = router
