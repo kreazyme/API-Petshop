@@ -10,24 +10,24 @@ router.route('/orders')
     .post(orderCtrl.createOrder)
 
 router.route('/orders/admin')
-    .get(orderCtrl.getAllOrders)
+    .get(auth, authAdmin, orderCtrl.getAllOrders)
 
 router.route('/orders/:id')
     .put(orderCtrl.updateOrder)
 
 router.route('/cart')
-    .get(orderCtrl.getCart)
-    .put(orderCtrl.addTypeToOrder)
+    .get(auth, orderCtrl.getCart)
+    .put(auth, orderCtrl.addTypeToOrder)
 
 router.route('/history')
-    .get(orderCtrl.getMyOrder)
+    .get(auth, orderCtrl.getMyOrder)
     .put(orderCtrl.getOrdersByTime)
 
 router.route('/cart/checkout')
-    .post(orderCtrl.checkoutOrder)
+    .post(auth, orderCtrl.checkoutOrder)
 
 router.route('/delivery')
     .get(orderCtrl.getDelivery)
-    .put(orderCtrl.updateDelivery)
+    .put(auth, authAdmin, orderCtrl.updateDelivery)
 
 module.exports = router

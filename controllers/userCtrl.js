@@ -34,11 +34,11 @@ const userCtrl = {
       res.cookie('refreshtoken', refreshtoken, {
         httpOnly: true,
         path: '/user/refresh_token',
-        //maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
       });
       res.json({ accesstoken });
     } catch (err) {
-      //console.log(err.message);
+      console.log(err.message);
       return res.status(500).json({ msg: err.message });
     }
   },
@@ -60,7 +60,7 @@ const userCtrl = {
       res.cookie('refreshtoken', refreshtoken, {
         httpOnly: true,
         path: '/user/refresh_token',
-        //maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
       });
 
       res.json({ accesstoken });

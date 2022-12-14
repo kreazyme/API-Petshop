@@ -17,7 +17,7 @@ const feedbackCtrl = {
         res.status(400).json({ message: "Product not found" });
         return;
       }
-      const user = await User.findOne({ _id: userID }, { name: 1, _id: 0 });
+      const user = await User.findOne({ _id: userID }, { name: 1, _id: 1 });
       const feedback = new Feedbacks({
         content: content,
         rating: rating,
@@ -28,7 +28,7 @@ const feedbackCtrl = {
       });
       await feedback.save()
       res.send(JSON.stringify(feedback));
-      
+
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Internal Server" });
