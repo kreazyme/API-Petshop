@@ -68,7 +68,7 @@ const productCtrl = {
     },
     getProductsByCategory: async (req, res) => {
         try {
-            const category = req.body.category;
+            const{category}  = req.query;
             const products = await Products.find({ category: category });
 
             res.json({
@@ -139,7 +139,7 @@ const productCtrl = {
     },
     searchProduct: async (req, res) => {
         try {
-            const { searchToken } = req.body
+            const { searchToken } = req.query;
             const products = await Products.find({ title: { "$regex": searchToken, "$options": "i" } });
             res.send(JSON.stringify(products));
         }
