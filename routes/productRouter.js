@@ -17,6 +17,8 @@ router.route('/products/:id')
     .put(auth, authAdmin, productCtrl.updateProduct)
     .get(productCtrl.getDetailProduct)
 
+router.route('/product')
+    .get(productCtrl.getProductsByCategory)
 
 
 module.exports = router

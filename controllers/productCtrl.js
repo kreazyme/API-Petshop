@@ -66,6 +66,21 @@ const productCtrl = {
             return res.status(500).json({ msg: err.message })
         }
     },
+    getProductsByCategory: async (req, res) => {
+        try {
+            const{category}  = req.query;
+            const products = await Products.find({ category: category });
+
+            res.json({
+                status: 'success',
+                result: products.length,
+                products: products
+            })
+
+        } catch (err) {
+            return res.status(500).json({ msg: err.message })
+        }
+    },
     createProduct: async (req, res) => {
         try {
             const { types, title, description, images, category } = req.body;
@@ -124,7 +139,7 @@ const productCtrl = {
     },
     searchProduct: async (req, res) => {
         try {
-            const { searchToken } = req.body
+            const { searchToken } = req.query;
             const products = await Products.find({ title: { "$regex": searchToken, "$options": "i" } });
             res.send(JSON.stringify(products));
         }
