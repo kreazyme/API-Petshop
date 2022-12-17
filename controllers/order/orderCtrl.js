@@ -162,9 +162,9 @@ const orderCtrl = {
                                 order.total = price;
 
                                 //save
+                                order.save();
                                 await Products.findByIdAndUpdate(product_id, { types: product.types });
-                                await Orders.findByIdAndUpdate(order._id, { listOrderItems: order.listOrderItems, total: order.total });
-
+                                // await Orders.findByIdAndUpdate(order._id, { listOrderItems: order.listOrderItems, total: order.total });
                                 res.send(JSON.stringify(order));
                             }
                             return;
