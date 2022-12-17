@@ -10,3 +10,4 @@ yarn.lock
 .env
 .env
 .package-lock.json
+docker-compose.yml
