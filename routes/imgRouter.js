@@ -44,7 +44,7 @@ router.post('/upload', (req, res) =>{
 })
 
 // Delete image only admin can use
-router.post('/destroy',auth , authAdmin, (req, res) =>{
+router.post('/destroy', (req, res) =>{
     try {
         const {public_id} = req.body;
         if(!public_id) return res.status(400).json({msg: 'Không có hình ảnh nào được chọn'})
