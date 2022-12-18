@@ -219,7 +219,19 @@ const orderCtrl = {
     },
     getAllOrders: async (req, res) => {
         try {
-            const orders = await Orders.find({ "listOrderItems.0": { $exists: true } }, { listOrderItems: 1, _id: 1, user_id: 1, status: 1, total: 1, createdAt: 1 });
+            const orders = await Orders.find(
+                { "listOrderItems.0": { $exists: true } },
+                {
+                    listOrderItems: 1,
+                    _id: 1,
+                    user_id: 1,
+                    status: 1,
+                    total: 1,
+                    createdAt: 1,
+                    address: 1,
+                    phone: 1,
+                }
+            );
             res.send(orders)
         } catch (err) {
             console.log(err);
