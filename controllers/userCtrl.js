@@ -133,6 +133,28 @@ const userCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+
+  updateUser: async (req, res) => {
+    try {
+      const userID = await authMe(req);
+      const { pet, avatar, birthday, sex, fullName, phone, address } = req.body;
+      const user = await Users.findById(userID);
+      if (!user) return res.status(400).json({ message: "User does not exist." })
+      if (pet) user.pet = pet;
+      if (avatar) user.avatar = avatar;
+      if (birthday) user.birthday = birthday;
+      if (sex) user.sex = sex;
+      if (fullName) user.fullName = fullName;
+      if (phone) user.phone = phone;
+      if (address) user.address = address;
+      await user.save();
+      res.json(user);
+    }
+    catch (err) {
+      console.log(err)
+      res.status(500).json({ error: "Internal Server Error" })
+    }
+  },
 };
 
 const createAccessToken = (user) => {
