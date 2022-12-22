@@ -149,7 +149,9 @@ const productCtrl = {
                     amount: type.amount
                 })
             }
-            await Products.findOneAndUpdate({ _id: req.body._id }, {
+            const id = req.params;
+            console.log(id);
+            await Products.findOneAndUpdate({ _id: req.params._id }, {
                 types: listType, title: title, description: description, images: images, category: category
             })
             res.json({ message: "Update successful" })
