@@ -130,7 +130,7 @@ const productCtrl = {
             await Products.findOneAndUpdate({ _id: req.params.id }, {
                 types:types, title: title.toLowerCase(), description:description, images:images, category:category
             })
-            res.json({ msg: "Đã cập nhật một sản phẩm" })
+            res.json({ msg: "Đã cập nhật sản phẩm" })
         } catch (err) {
             return res.status(500).json({ msg: err.message })
         }
