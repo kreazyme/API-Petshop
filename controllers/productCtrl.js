@@ -68,7 +68,7 @@ const productCtrl = {
     },
     getProductsByCategory: async (req, res) => {
         try {
-            const{category}  = req.query;
+            const { category } = req.query;
             const products = await Products.find({ category: category });
 
             res.json({
@@ -126,11 +126,23 @@ const productCtrl = {
     updateProduct: async (req, res) => {
         try {
             const { types, title, description, images, category } = req.body;
-            if (!images) return res.status(400).json({ msg: "Không có hình ảnh tải lên" })
+            if (!images) return res.status(400).json({ "Error": "Dont have image" })
+            var listType = [];
+            for (var i = 0; i < types.length; i++) {
+                const type = await Type.findOneAndUpdate({ _id: types[i]._id }, {
+                    name: types[i].name, price: types[i].price, amount: types[i].amount
+                })
+                listType.push({
+                    _id: type._id,
+                    name: type.name,
+                    price: type.price,
+                    amount: type.amount
+                })
+            }
             await Products.findOneAndUpdate({ _id: req.params.id }, {
-                types:types, title: title.toLowerCase(), description:description, images:images, category:category
+                types: types, title: title, description: description, images: images, category: category
             })
-            res.json({ msg: "Đã cập nhật sản phẩm" })
+            res.json({ message: "Update successful" })
         } catch (err) {
             return res.status(500).json({ msg: err.message })
         }
