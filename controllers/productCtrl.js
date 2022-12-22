@@ -129,9 +129,19 @@ const productCtrl = {
             if (!images) return res.status(400).json({ "Error": "Dont have image" })
             var listType = [];
             for (var i = 0; i < types.length; i++) {
-                const type = await Type.findOneAndUpdate({ _id: types[i]._id }, {
-                    name: types[i].name, price: types[i].price, amount: types[i].amount
-                })
+                var type;
+                if (types[i]._id != null) {
+                    type = await Type.findOneAndUpdate({ _id: types[i]._id }, {
+                        name: types[i].name, price: types[i].price, amount: types[i].amount
+                    })
+                }
+                else {
+                    type = new Type({
+                        name: types[i].name,
+                        price: types[i].price,
+                        amount: types[i].amount,
+                    });
+                }
                 listType.push({
                     _id: type._id,
                     name: type.name,
@@ -139,7 +149,7 @@ const productCtrl = {
                     amount: type.amount
                 })
             }
-            await Products.findOneAndUpdate({ _id: req.params.id }, {
+            await Products.findOneAndUpdate({ _id: req.query }, {
                 types: listType, title: title, description: description, images: images, category: category
             })
             res.json({ message: "Update successful" })
