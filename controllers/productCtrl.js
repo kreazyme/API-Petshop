@@ -140,7 +140,7 @@ const productCtrl = {
                 })
             }
             await Products.findOneAndUpdate({ _id: req.params.id }, {
-                types: types, title: title, description: description, images: images, category: category
+                types: listType, title: title, description: description, images: images, category: category
             })
             res.json({ message: "Update successful" })
         } catch (err) {
