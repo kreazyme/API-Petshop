@@ -149,11 +149,12 @@ const productCtrl = {
                     amount: type.amount
                 })
             }
-            await Products.findOneAndUpdate({ _id: req.query }, {
+            await Products.findOneAndUpdate({ _id: req.body._id }, {
                 types: listType, title: title, description: description, images: images, category: category
             })
             res.json({ message: "Update successful" })
         } catch (err) {
+            console.log(err);
             return res.status(500).json({ msg: err.message })
         }
     },
