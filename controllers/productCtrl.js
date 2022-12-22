@@ -125,13 +125,11 @@ const productCtrl = {
     },
     updateProduct: async (req, res) => {
         try {
-            const { type, title, description, images, category } = req.body;
+            const { types, title, description, images, category } = req.body;
             if (!images) return res.status(400).json({ msg: "Không có hình ảnh tải lên" })
-
             await Products.findOneAndUpdate({ _id: req.params.id }, {
-                type, title: title.toLowerCase(), description, images, category
+                types:types, title: title.toLowerCase(), description:description, images:images, category:category
             })
-
             res.json({ msg: "Đã cập nhật một sản phẩm" })
         } catch (err) {
             return res.status(500).json({ msg: err.message })
