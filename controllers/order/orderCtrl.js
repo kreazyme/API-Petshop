@@ -416,6 +416,42 @@ const orderCtrl = {
             res.status(500).json({ message: "Internal Server Error" });
         }
     },
+    removeOrderItem: async (req, res) => {
+        const { order_id, product_id } = req.body;
+        if (!order_id || !product_id) {
+            res.status(400).json({ message: "order_id and product_id are required" })
+            return;
+        }
+        try {
+            const userId = await authMe(req);
+            const order = await Orders.findOne({ _id: order_id, user_id: userId });
+            if (!order) {
+                res.status(400).json({ message: "Order not found" })
+                return;
+            }
+            else {
+                const listOrderItems = order.listOrderItems;
+                const index = listOrderItems.findIndex(item => item.product_id === product_id);
+                if (index === -1) {
+                    res.status(400).json({ message: "Product not found" })
+                    return;
+                }
+                else {
+                    listOrderItems.splice(index, 1);
+                    await Orders.findOneAndUpdate({
+                        _id: order._id
+                    }, {
+                        listOrderItems
+                    })
+                }
+                res.send({ message: "Order update successfully" });
+            }
+        }
+        catch (err) {
+            console.log(err)
+            res.status(500).json({ message: "Internal Server Error" });
+        }
+    },
     updateDelivery: async (req, res) => {
         const { delivery_id, order_id } = req.body;
         if (!delivery_id || !order_id) {
