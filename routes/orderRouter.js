@@ -9,6 +9,8 @@ router.route('/orders')
     .get(orderCtrl.getOrdersbyID)
     .post(orderCtrl.createOrder)
     .put(auth, orderCtrl.updateOrderDetail)
+    .delete(auth, orderCtrl.removeOrderItem)
+
 
 router.route('/orders/admin')
     .get(auth, authAdmin, orderCtrl.getAllOrders)
