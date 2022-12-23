@@ -389,6 +389,33 @@ const orderCtrl = {
             catch (err) { }
         });
     },
+    updateOrderDetail: async (req, res) => {
+        const { phone, name, address, order_id } = req.body;
+        if (!phone || !name || !address || !order_id) {
+            res.status(400).json({ message: "phone, name, address and order_id are required" })
+            return;
+        }
+        try {
+            const userId = await authMe(req);
+            const order = await Orders.findOne({ _id: order_id, user_id: userId });
+            if (!order) {
+                res.status(400).json({ message: "Order not found" })
+                return;
+            }
+            else {
+                await Orders.findOneAndUpdate({
+                    _id: order._id
+                }, {
+                    phone, name, address
+                })
+            }
+            res.send({ message: "Order update successfully" });
+        }
+        catch (err) {
+            console.log(err)
+            res.status(500).json({ message: "Internal Server Error" });
+        }
+    },
     updateDelivery: async (req, res) => {
         const { delivery_id, order_id } = req.body;
         if (!delivery_id || !order_id) {
