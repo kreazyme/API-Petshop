@@ -356,7 +356,7 @@ const orderCtrl = {
                 phone: 1,
                 address: 1,
                 name: 1
-            }).sort({ updatedAt: -1 });
+            });
             res.send(orders);
         } catch (err) {
             console.log(err);
@@ -442,13 +442,11 @@ const orderCtrl = {
                 }
                 else {
                     listOrderItems.splice(index, 1);
-                    let price = 0;
-                    for (let i = 0; i < listOrderItems.length; i++) {
-                        price += listOrderItems[i].price * listOrderItems[i].quantity;
-                    }
-                    order.total = price;
-                    order.listOrderItems = listOrderItems;
-                    await order.save();
+                    await Orders.findOneAndUpdate({
+                        _id: order._id
+                    }, {
+                        listOrderItems
+                    })
                 }
                 res.send({ message: "Order update successfully" });
             }
