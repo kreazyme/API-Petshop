@@ -351,7 +351,11 @@ const orderCtrl = {
                 createdAt: 1,
                 total: 1,
                 status: 1,
-                listOrderItems: 1
+                listOrderItems: 1,
+                updatedAt: 1,
+                phone: 1,
+                address: 1,
+                name: 1
             });
             res.send(orders);
         } catch (err) {
