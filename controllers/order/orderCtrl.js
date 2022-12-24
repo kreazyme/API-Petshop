@@ -444,7 +444,7 @@ const orderCtrl = {
                     listOrderItems.splice(index, 1);
                     let price = 0;
                     for (let i = 0; i < listOrderItems.length; i++) {
-                        price += listOrderItems[i].price * listOrderItems[i].quantity;
+                        price += listOrderItems[i].price * listOrderItems[i].amount;
                     }
                     order.total = price;
                     order.listOrderItems = listOrderItems;
