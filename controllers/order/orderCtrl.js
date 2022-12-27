@@ -230,6 +230,7 @@ const orderCtrl = {
                     createdAt: 1,
                     address: 1,
                     phone: 1,
+                    delivery: 1,
                 }
             );
             res.send(orders)
