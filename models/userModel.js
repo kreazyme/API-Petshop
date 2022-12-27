@@ -44,10 +44,6 @@ const userSchema = new mongoose.Schema({
     pet: {
         type: Array,
     },
-    fcmtokens: {
-        type: String,
-        default: []
-    },
 }, {
     timestamps: true
 })

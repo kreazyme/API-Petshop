@@ -10,6 +10,7 @@ const User = require('../../models/userModel');
 const paypalCtrl = require('../order/paypalCtrl');
 const axios = require('axios');
 const dotenv = require('dotenv');
+const admin = require('firebase-admin');
 
 const orderCtrl = {
     createOrder: async (req, res) => {
@@ -466,8 +467,35 @@ const orderCtrl = {
             return;
         }
         try {
+            console.log("FOidsj")
             await Orders.findOneAndUpdate({ _id: order_id }, { delivery: delivery_id });
-            res.send({ message: "Order update successfully" });
+            const title = "Order confirmed";
+            const body = `Your order has been confirmed. Please wait for the delivery. Your delivery is ${delivery_id}`
+            console.log("title: ", title);
+            const payload = {
+                notification: {
+                    title: title,
+                    body: body,
+                },
+            };
+
+            const options = {
+                priority: "normal",
+                timeToLive: 60 * 60,
+            };
+
+            let errors = [];
+            admin
+                .messaging()
+                .sendToDevice("f12pjsWcTHijugxUeMMNb0:APA91bFS7lUa6DZN3VI6PIg-dp9h7DU81jDFHmkOJcB9rkif3DSk_20RI7LAGGytCoP9W_iUDT47Zs1powNwJHVB6lTP0nmpcM0bTOyxUeewQwvoeGOksGR1fzIYpvqrjOUUL8vBM_5x", payload, options)
+                .catch((error) => {
+                    errors.push(error);
+                });
+            if (errors.length === 0) {
+                res.send({ message: "Order update successfully" });
+            } else {
+                return res.status(500).json({ errors: errors });
+            }
         }
         catch (err) {
             console.log(err)
