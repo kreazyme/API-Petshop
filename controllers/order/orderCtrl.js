@@ -466,6 +466,7 @@ const orderCtrl = {
         }
         try {
             await Orders.findOneAndUpdate({ _id: order_id }, { delivery: delivery_id });
+            res.send({ message: "Order update successfully" });
         }
         catch (err) {
             console.log(err)

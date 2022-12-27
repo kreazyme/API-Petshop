@@ -6,6 +6,8 @@ const fileUpload = require('express-fileupload')
 const cookieParser = require('cookie-parser')
 const path = require('path')
 const paypal = require('paypal-rest-sdk')
+const { initializeApp } = require("firebase-admin/app");
+const admin = require("firebase-admin");
 
 //Paypal Config
 paypal.configure({
@@ -14,6 +16,10 @@ paypal.configure({
     'client_secret': process.env.PAYPAL_CLIENT_SECRET
 })
 
+var serviceAccount = require("./config/petshop-5dac8-firebase-adminsdk-ct4mm-af7ec40d47.json");
+initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+})
 
 const app = express()
 app.use(express.json())
@@ -36,6 +42,7 @@ app.use('/api', require('./routes/address/district'))
 app.use('/api', require('./routes/address/province'))
 app.use('/api', require('./routes/orderRouter'))
 app.use("/api", require("./routes/paypalRouter"))
+app.use("/api", require("./routes/notiRouter"))
 
 
 

@@ -45,10 +45,11 @@ const userCtrl = {
 
   login: async (req, res) => {
     try {
-      const { email, password } = req.body;
+      const { email, password, fcm_token } = req.body;
       const user = await Users.findOne({ email });
 
       if (!user) return res.status(400).json({ msg: 'User does not exist.' });
+      if (fcm_token) await Users.findOneAndUpdate({ _id: user._id }, { fcm_token })
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) return res.status(400).json({ msg: 'Incorrect password.' });
